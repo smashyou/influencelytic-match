@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Instagram, Twitter, Linkedin, FacebookIcon, Youtube, Tiktok } from 'lucide-react';
+import { Instagram, Twitter, Linkedin, Facebook, Youtube } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -19,10 +18,9 @@ const Footer = () => {
             </p>
             <div className="flex space-x-4">
               <SocialLink href="#" icon={<Instagram size={18} />} label="Instagram" />
-              <SocialLink href="#" icon={<FacebookIcon size={18} />} label="Facebook" />
+              <SocialLink href="#" icon={<Facebook size={18} />} label="Facebook" />
               <SocialLink href="#" icon={<Twitter size={18} />} label="Twitter" />
               <SocialLink href="#" icon={<Linkedin size={18} />} label="LinkedIn" />
-              <SocialLink href="#" icon={<Tiktok size={18} />} label="TikTok" />
               <SocialLink href="#" icon={<Youtube size={18} />} label="YouTube" />
             </div>
           </div>
