@@ -1,110 +1,132 @@
 
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
+import AuthLayout from '@/components/layout/AuthLayout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import AuthLayout from '@/components/layout/AuthLayout';
-import { Facebook, Mail } from 'lucide-react';
-import { Link, Navigate } from 'react-router-dom';
-import { useAuth } from '@/context/AuthContext';
-import { useToast } from '@/components/ui/use-toast';
+import { 
+  Card, 
+  CardContent, 
+  CardDescription, 
+  CardFooter, 
+  CardHeader, 
+  CardTitle 
+} from '@/components/ui/card';
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { toast } from '@/components/ui/use-toast';
 
 const SignUp = () => {
-  const [userType, setUserType] = useState('influencer');
+  const navigate = useNavigate();
+  const { signUp } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  const { signUp, user } = useAuth();
-  const { toast } = useToast();
-  
-  // Influencer form state
-  const [influencerData, setInfluencerData] = useState({
-    firstName: '',
-    lastName: '',
+  const [formData, setFormData] = useState({
+    first_name: '',
+    last_name: '',
     email: '',
     password: '',
+    confirmPassword: '',
+    user_type: 'influencer',
   });
-  
-  // Brand form state
-  const [brandData, setBrandData] = useState({
-    companyName: '',
-    email: '',
-    password: '',
-  });
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
-  // Redirect if already logged in
-  if (user) {
-    return <Navigate to="/dashboard" replace />;
-  }
-  
-  const handleInfluencerSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsLoading(true);
-    
-    try {
-      const { error } = await signUp(
-        influencerData.email, 
-        influencerData.password,
-        {
-          first_name: influencerData.firstName,
-          last_name: influencerData.lastName,
-          user_type: 'influencer',
-        }
-      );
-      
-      if (error) {
-        toast({
-          title: "Error signing up",
-          description: error.message,
-          variant: "destructive",
-        });
-      } else {
-        toast({
-          title: "Registration successful",
-          description: "Please check your email to confirm your account",
-        });
-      }
-    } catch (error: any) {
-      toast({
-        title: "An unexpected error occurred",
-        description: error.message || "Please try again later",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prevErrors => ({
+        ...prevErrors,
+        [name]: ''
+      }));
     }
   };
-  
-  const handleBrandSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+
+  const handleUserTypeChange = (value: string) => {
+    setFormData(prevState => ({
+      ...prevState,
+      user_type: value
+    }));
+  };
+
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+    
+    if (!formData.first_name.trim()) {
+      newErrors.first_name = 'First name is required';
+    }
+    
+    if (!formData.last_name.trim()) {
+      newErrors.last_name = 'Last name is required';
+    }
+    
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Email is invalid';
+    }
+    
+    if (!formData.password) {
+      newErrors.password = 'Password is required';
+    } else if (formData.password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    }
+    
+    if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = 'Passwords do not match';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!validateForm()) return;
+    
     setIsLoading(true);
     
     try {
       const { error } = await signUp(
-        brandData.email, 
-        brandData.password,
+        formData.email,
+        formData.password,
         {
-          first_name: brandData.companyName,
-          user_type: 'brand',
+          first_name: formData.first_name,
+          last_name: formData.last_name,
+          user_type: formData.user_type,
         }
       );
       
       if (error) {
         toast({
-          title: "Error signing up",
+          title: 'Sign up failed',
           description: error.message,
-          variant: "destructive",
+          variant: 'destructive',
         });
       } else {
         toast({
-          title: "Registration successful",
-          description: "Please check your email to confirm your account",
+          title: 'Sign up successful',
+          description: 'Please check your email to confirm your account.',
         });
+        navigate('/signin');
       }
-    } catch (error: any) {
+    } catch (error) {
+      console.error('Sign up error:', error);
       toast({
-        title: "An unexpected error occurred",
-        description: error.message || "Please try again later",
-        variant: "destructive",
+        title: 'Something went wrong',
+        description: 'Please try again later',
+        variant: 'destructive',
       });
     } finally {
       setIsLoading(false);
@@ -112,179 +134,113 @@ const SignUp = () => {
   };
 
   return (
-    <AuthLayout
-      title="Create an account"
-      description="Choose your account type to get started"
-      showSignIn={true}
-    >
-      <Tabs defaultValue="influencer" className="w-full" onValueChange={setUserType}>
-        <TabsList className="grid w-full grid-cols-2 mb-6">
-          <TabsTrigger value="influencer">Influencer</TabsTrigger>
-          <TabsTrigger value="brand">Brand</TabsTrigger>
-        </TabsList>
-        
-        <TabsContent value="influencer" className="space-y-4">
-          <form onSubmit={handleInfluencerSubmit} className="space-y-4">
+    <AuthLayout>
+      <Card className="w-full max-w-md">
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
+          <CardDescription>
+            Enter your information to create your account
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="first-name">First name</Label>
-                <Input 
-                  id="first-name" 
-                  required 
-                  className="h-12"
-                  value={influencerData.firstName}
-                  onChange={(e) => setInfluencerData({...influencerData, firstName: e.target.value})}
+                <Label htmlFor="first_name">First Name</Label>
+                <Input
+                  id="first_name"
+                  name="first_name"
+                  value={formData.first_name}
+                  onChange={handleChange}
+                  placeholder="John"
+                  required
                 />
+                {errors.first_name && <p className="text-sm text-destructive">{errors.first_name}</p>}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="last-name">Last name</Label>
-                <Input 
-                  id="last-name" 
-                  required 
-                  className="h-12"
-                  value={influencerData.lastName}
-                  onChange={(e) => setInfluencerData({...influencerData, lastName: e.target.value})}
+                <Label htmlFor="last_name">Last Name</Label>
+                <Input
+                  id="last_name"
+                  name="last_name"
+                  value={formData.last_name}
+                  onChange={handleChange}
+                  placeholder="Doe"
+                  required
                 />
+                {errors.last_name && <p className="text-sm text-destructive">{errors.last_name}</p>}
               </div>
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="email-influencer">Email</Label>
-              <Input 
-                id="email-influencer" 
-                type="email" 
-                required 
-                className="h-12"
-                value={influencerData.email}
-                onChange={(e) => setInfluencerData({...influencerData, email: e.target.value})}
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="john.doe@example.com"
+                required
               />
+              {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="password-influencer">Password</Label>
-              <Input 
-                id="password-influencer" 
-                type="password" 
-                required 
-                className="h-12"
-                value={influencerData.password}
-                onChange={(e) => setInfluencerData({...influencerData, password: e.target.value})}
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
               />
+              {errors.password && <p className="text-sm text-destructive">{errors.password}</p>}
             </div>
             
-            <Button 
-              type="submit" 
-              className="w-full h-12 button-hover-effect"
-              disabled={isLoading}
-            >
-              {isLoading ? 'Creating Account...' : 'Create Influencer Account'}
+            <div className="space-y-2">
+              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Input
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+              />
+              {errors.confirmPassword && <p className="text-sm text-destructive">{errors.confirmPassword}</p>}
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="user_type">Account Type</Label>
+              <Select 
+                value={formData.user_type} 
+                onValueChange={handleUserTypeChange}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select account type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="influencer">Influencer</SelectItem>
+                  <SelectItem value="brand">Brand</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? 'Creating account...' : 'Create account'}
             </Button>
           </form>
-          
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t"></div>
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-card px-2 text-muted-foreground">
-                Or continue with
-              </span>
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-2 gap-4">
-            <Button variant="outline" className="h-12" type="button">
-              <Facebook className="mr-2 h-5 w-5" />
-              Facebook
-            </Button>
-            <Button variant="outline" className="h-12" type="button">
-              <Mail className="mr-2 h-5 w-5" />
-              Google
-            </Button>
-          </div>
-        </TabsContent>
-        
-        <TabsContent value="brand" className="space-y-4">
-          <form onSubmit={handleBrandSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="company-name">Company name</Label>
-              <Input 
-                id="company-name" 
-                required 
-                className="h-12"
-                value={brandData.companyName}
-                onChange={(e) => setBrandData({...brandData, companyName: e.target.value})}
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="email-brand">Work email</Label>
-              <Input 
-                id="email-brand" 
-                type="email" 
-                required 
-                className="h-12"
-                value={brandData.email}
-                onChange={(e) => setBrandData({...brandData, email: e.target.value})}
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="password-brand">Password</Label>
-              <Input 
-                id="password-brand" 
-                type="password" 
-                required 
-                className="h-12"
-                value={brandData.password}
-                onChange={(e) => setBrandData({...brandData, password: e.target.value})}
-              />
-            </div>
-            
-            <Button 
-              type="submit" 
-              className="w-full h-12 button-hover-effect"
-              disabled={isLoading}
-            >
-              {isLoading ? 'Creating Account...' : 'Create Brand Account'}
-            </Button>
-          </form>
-          
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t"></div>
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-card px-2 text-muted-foreground">
-                Or continue with
-              </span>
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-2 gap-4">
-            <Button variant="outline" className="h-12" type="button">
-              <Facebook className="mr-2 h-5 w-5" />
-              Facebook
-            </Button>
-            <Button variant="outline" className="h-12" type="button">
-              <Mail className="mr-2 h-5 w-5" />
-              Google
-            </Button>
-          </div>
-        </TabsContent>
-      </Tabs>
-      
-      <div className="mt-4 text-center text-xs text-muted-foreground">
-        By clicking continue, you agree to our{' '}
-        <Link to="/terms" className="underline underline-offset-4 hover:text-primary">
-          Terms of Service
-        </Link>{' '}
-        and{' '}
-        <Link to="/privacy" className="underline underline-offset-4 hover:text-primary">
-          Privacy Policy
-        </Link>
-        .
-      </div>
+        </CardContent>
+        <CardFooter className="flex justify-center">
+          <p className="text-sm text-muted-foreground">
+            Already have an account?{' '}
+            <Link to="/signin" className="text-primary hover:underline">
+              Sign in
+            </Link>
+          </p>
+        </CardFooter>
+      </Card>
     </AuthLayout>
   );
 };
