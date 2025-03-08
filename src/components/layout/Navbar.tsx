@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
 
 interface NavbarProps {
   transparent?: boolean;
@@ -12,6 +13,7 @@ interface NavbarProps {
 const Navbar = ({ transparent = false }: NavbarProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { user, signOut } = useAuth();
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -35,6 +37,10 @@ const Navbar = ({ transparent = false }: NavbarProps) => {
       : 'bg-transparent'
   );
 
+  const handleSignOut = async () => {
+    await signOut();
+  };
+
   return (
     <nav className={navbarClasses}>
       <div className="container mx-auto flex items-center justify-between">
@@ -51,12 +57,25 @@ const Navbar = ({ transparent = false }: NavbarProps) => {
         <div className="hidden md:flex items-center gap-8">
           <NavLinks />
           <div className="flex items-center gap-4">
-            <Button asChild variant="ghost" className="button-hover-effect">
-              <Link to="/signin">Sign In</Link>
-            </Button>
-            <Button asChild className="button-hover-effect">
-              <Link to="/signup">Get Started</Link>
-            </Button>
+            {user ? (
+              <>
+                <Button asChild variant="ghost" className="button-hover-effect">
+                  <Link to="/dashboard">Dashboard</Link>
+                </Button>
+                <Button onClick={handleSignOut} variant="outline" className="button-hover-effect">
+                  Sign Out
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button asChild variant="ghost" className="button-hover-effect">
+                  <Link to="/signin">Sign In</Link>
+                </Button>
+                <Button asChild className="button-hover-effect">
+                  <Link to="/signup">Get Started</Link>
+                </Button>
+              </>
+            )}
           </div>
         </div>
 
@@ -83,12 +102,25 @@ const Navbar = ({ transparent = false }: NavbarProps) => {
           <NavLinks mobile onClick={() => setIsOpen(false)} />
         </div>
         <div className="flex flex-col gap-4 mt-6">
-          <Button asChild variant="outline" className="w-full">
-            <Link to="/signin" onClick={() => setIsOpen(false)}>Sign In</Link>
-          </Button>
-          <Button asChild className="w-full">
-            <Link to="/signup" onClick={() => setIsOpen(false)}>Get Started</Link>
-          </Button>
+          {user ? (
+            <>
+              <Button asChild variant="outline" className="w-full">
+                <Link to="/dashboard" onClick={() => setIsOpen(false)}>Dashboard</Link>
+              </Button>
+              <Button onClick={() => { handleSignOut(); setIsOpen(false); }} className="w-full">
+                Sign Out
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button asChild variant="outline" className="w-full">
+                <Link to="/signin" onClick={() => setIsOpen(false)}>Sign In</Link>
+              </Button>
+              <Button asChild className="w-full">
+                <Link to="/signup" onClick={() => setIsOpen(false)}>Get Started</Link>
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </nav>

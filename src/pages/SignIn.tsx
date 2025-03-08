@@ -1,17 +1,49 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/components/layout/AuthLayout';
 import { Facebook, Mail } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
+import { useToast } from '@/components/ui/use-toast';
 
 const SignIn = () => {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const { signIn, user } = useAuth();
+  const { toast } = useToast();
+
+  // Redirect if already logged in
+  if (user) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Will implement actual authentication in future updates
-    console.log('Sign in form submitted');
+    setIsLoading(true);
+
+    try {
+      const { error } = await signIn(email, password);
+      
+      if (error) {
+        toast({
+          title: "Error signing in",
+          description: error.message,
+          variant: "destructive",
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: "An unexpected error occurred",
+        description: error.message || "Please try again later",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -20,7 +52,7 @@ const SignIn = () => {
       description="Sign in to your account to continue"
       showSignUp={true}
     >
-      <div className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-6">
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
@@ -28,6 +60,8 @@ const SignIn = () => {
               id="email"
               placeholder="name@example.com"
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
               className="h-12"
             />
@@ -45,14 +79,16 @@ const SignIn = () => {
             <Input
               id="password"
               type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
               className="h-12"
             />
           </div>
         </div>
         
-        <Button type="submit" className="w-full h-12 button-hover-effect">
-          Sign In
+        <Button type="submit" className="w-full h-12 button-hover-effect" disabled={isLoading}>
+          {isLoading ? 'Signing in...' : 'Sign In'}
         </Button>
         
         <div className="relative my-8">
@@ -67,16 +103,16 @@ const SignIn = () => {
         </div>
         
         <div className="grid grid-cols-2 gap-4">
-          <Button variant="outline" className="h-12">
+          <Button variant="outline" className="h-12" type="button">
             <Facebook className="mr-2 h-5 w-5" />
             Facebook
           </Button>
-          <Button variant="outline" className="h-12">
+          <Button variant="outline" className="h-12" type="button">
             <Mail className="mr-2 h-5 w-5" />
             Google
           </Button>
         </div>
-      </div>
+      </form>
     </AuthLayout>
   );
 };
