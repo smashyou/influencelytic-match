@@ -1,3 +1,4 @@
+
 import { supabase } from '@/integrations/supabase/client';
 
 type SocialPlatform = 'instagram' | 'facebook' | 'tiktok' | 'youtube' | 'twitter' | 'linkedin' | 'snapchat';
@@ -62,9 +63,9 @@ export const initiateSocialAuth = async (platform: SocialPlatform): Promise<stri
 };
 
 const storeSocialConnection = async (platform: SocialPlatform, data: any) => {
-  const { user } = await supabase.auth.getUser();
+  const { data: userData, error: userError } = await supabase.auth.getUser();
   
-  if (!user) {
+  if (userError || !userData.user) {
     throw new Error('User not authenticated');
   }
   
@@ -72,7 +73,7 @@ const storeSocialConnection = async (platform: SocialPlatform, data: any) => {
     // Store the connection using our edge function
     const { error } = await supabase.functions.invoke('instagram-auth/store', {
       body: {
-        userId: user.id,
+        userId: userData.user.id,
         platform,
         accessToken: data.accessToken,
         platformUserId: data.userId,

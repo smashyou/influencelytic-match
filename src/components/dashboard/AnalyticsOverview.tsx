@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Instagram, Facebook, Youtube, Linkedin, Twitter, UserCheck, MessageSquare, ArrowUpRight } from 'lucide-react';
 
 interface AnalyticsOverviewProps {
@@ -42,6 +43,13 @@ const AnalyticsOverview = ({ connectedPlatforms }: AnalyticsOverviewProps) => {
   const filteredBreakdown = mockAnalytics.platformBreakdown.filter(item => 
     connectedPlatforms.includes(item.platform)
   );
+
+  const navigateToPlatforms = () => {
+    const platformsTab = document.querySelector('[data-value="platforms"]');
+    if (platformsTab instanceof HTMLElement) {
+      platformsTab.click();
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -132,7 +140,7 @@ const AnalyticsOverview = ({ connectedPlatforms }: AnalyticsOverviewProps) => {
             <p className="text-muted-foreground mb-4">Connect your social media platforms to see analytics</p>
             <Button 
               variant="outline" 
-              onClick={() => document.querySelector('[data-value="platforms"]')?.click()}
+              onClick={navigateToPlatforms}
             >
               Connect Platforms
             </Button>

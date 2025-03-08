@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
@@ -10,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { toast } from '@/components/ui/use-toast';
 import SocialConnectCard from '@/components/dashboard/SocialConnectCard';
 import AnalyticsOverview from '@/components/dashboard/AnalyticsOverview';
+import { initiateSocialAuth } from '@/services/social-auth';
 
 type Profile = {
   id: string;
@@ -47,10 +47,8 @@ const Dashboard = () => {
       }
     };
 
-    // Fetch mock connected platforms (to be replaced with actual API calls later)
     const fetchConnectedPlatforms = async () => {
-      // This would be replaced with actual API calls to check connected platforms
-      setConnectedPlatforms(['instagram', 'youtube']); // Mock data
+      setConnectedPlatforms(['instagram', 'youtube']);
     };
 
     getProfile();
@@ -61,16 +59,33 @@ const Dashboard = () => {
     await signOut();
   };
 
-  const handleConnectPlatform = (platform: string) => {
-    // This would be replaced with actual OAuth flow
+  const handleConnectPlatform = async (platform: string) => {
     toast({
       title: "Connecting to " + platform,
-      description: "This would initiate the OAuth flow for " + platform,
+      description: "Initiating the OAuth flow for " + platform,
     });
     
-    // Mock successful connection (to be replaced with actual OAuth flow)
-    if (!connectedPlatforms.includes(platform)) {
-      setConnectedPlatforms([...connectedPlatforms, platform]);
+    try {
+      const result = await initiateSocialAuth(platform as any);
+      if (result) {
+        if (!connectedPlatforms.includes(platform)) {
+          setConnectedPlatforms([...connectedPlatforms, platform]);
+        }
+      }
+    } catch (error) {
+      console.error(`Error connecting to ${platform}:`, error);
+      toast({
+        title: `Failed to connect to ${platform}`,
+        description: "Please try again later.",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const navigateToPlatforms = () => {
+    const platformsTab = document.querySelector('[data-value="platforms"]');
+    if (platformsTab instanceof HTMLElement) {
+      platformsTab.click();
     }
   };
 
@@ -187,7 +202,7 @@ const Dashboard = () => {
                             <Button 
                               variant="outline" 
                               className="mt-4"
-                              onClick={() => document.querySelector('[data-value="platforms"]')?.click()}
+                              onClick={navigateToPlatforms}
                             >
                               Connect Platforms
                             </Button>
