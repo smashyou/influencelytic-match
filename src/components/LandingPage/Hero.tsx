@@ -34,6 +34,14 @@ const Hero = () => {
     };
   }, []);
 
+  const scrollToHowItWorks = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const howItWorksSection = document.getElementById('how-it-works');
+    if (howItWorksSection) {
+      howItWorksSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div ref={containerRef} className="relative overflow-hidden">
       {/* Background gradient */}
@@ -97,8 +105,13 @@ const Hero = () => {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="button-hover-effect">
-              <Link to="/#features">See How It Works</Link>
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="button-hover-effect"
+              onClick={scrollToHowItWorks}
+            >
+              See How It Works
             </Button>
           </div>
           

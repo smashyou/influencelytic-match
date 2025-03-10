@@ -41,6 +41,15 @@ const Navbar = ({ transparent = false }: NavbarProps) => {
     await signOut();
   };
 
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setIsOpen(false);
+    }
+  };
+
   return (
     <nav className={navbarClasses}>
       <div className="container mx-auto flex items-center justify-between">
@@ -55,7 +64,7 @@ const Navbar = ({ transparent = false }: NavbarProps) => {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">
-          <NavLinks />
+          <NavLinks scrollToSection={scrollToSection} />
           <div className="flex items-center gap-4">
             {user ? (
               <>
@@ -99,7 +108,7 @@ const Navbar = ({ transparent = false }: NavbarProps) => {
         isOpen ? "translate-x-0" : "translate-x-full"
       )}>
         <div className="flex flex-col gap-6 items-start">
-          <NavLinks mobile onClick={() => setIsOpen(false)} />
+          <NavLinks mobile onClick={() => setIsOpen(false)} scrollToSection={scrollToSection} />
         </div>
         <div className="flex flex-col gap-4 mt-6">
           {user ? (
@@ -127,7 +136,13 @@ const Navbar = ({ transparent = false }: NavbarProps) => {
   );
 };
 
-const NavLinks = ({ mobile = false, onClick = () => {} }: { mobile?: boolean; onClick?: () => void }) => {
+interface NavLinksProps {
+  mobile?: boolean;
+  onClick?: () => void;
+  scrollToSection?: (e: React.MouseEvent<HTMLAnchorElement>, id: string) => void;
+}
+
+const NavLinks = ({ mobile = false, onClick = () => {}, scrollToSection }: NavLinksProps) => {
   const linkClass = cn(
     "transition-colors duration-200 hover:text-primary",
     mobile ? "text-xl py-2" : "text-sm font-medium"
@@ -135,10 +150,46 @@ const NavLinks = ({ mobile = false, onClick = () => {} }: { mobile?: boolean; on
 
   return (
     <>
-      <Link to="/#features" className={linkClass} onClick={onClick}>Features</Link>
-      <Link to="/#pricing" className={linkClass} onClick={onClick}>Pricing</Link>
-      <Link to="/#about" className={linkClass} onClick={onClick}>About</Link>
-      <Link to="/#contact" className={linkClass} onClick={onClick}>Contact</Link>
+      <a 
+        href="#features" 
+        className={linkClass} 
+        onClick={(e) => {
+          if (scrollToSection) scrollToSection(e, 'features');
+          onClick();
+        }}
+      >
+        Features
+      </a>
+      <a 
+        href="#pricing" 
+        className={linkClass} 
+        onClick={(e) => {
+          if (scrollToSection) scrollToSection(e, 'pricing');
+          onClick();
+        }}
+      >
+        Pricing
+      </a>
+      <a 
+        href="#how-it-works" 
+        className={linkClass} 
+        onClick={(e) => {
+          if (scrollToSection) scrollToSection(e, 'how-it-works');
+          onClick();
+        }}
+      >
+        How It Works
+      </a>
+      <a 
+        href="#contact" 
+        className={linkClass} 
+        onClick={(e) => {
+          if (scrollToSection) scrollToSection(e, 'contact');
+          onClick();
+        }}
+      >
+        Contact
+      </a>
     </>
   );
 };
