@@ -45,16 +45,16 @@ const Features = () => {
 
   return (
     <div id="features" className="relative py-24 md:py-32 overflow-hidden">
-      {/* Background elements - removed pointer-events-none from backdrop-blur to ensure visibility */}
-      <div className="absolute inset-0 bg-secondary/30" />
-      <div className="absolute inset-0 backdrop-blur-[100px] [mask-image:radial-gradient(ellipse_at_center,black_50%,transparent)]" />
+      {/* Background elements - reduced opacity and adjusted background */}
+      <div className="absolute inset-0 bg-secondary/20" />
+      <div className="absolute inset-0 backdrop-blur-[50px]" />
       
-      <div className="container mx-auto px-6">
+      <div className="container relative z-10 mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="heading-2 mb-4">
-            Powered by <span className="animated-gradient-text">Advanced AI</span>
+          <h2 className="heading-2 mb-4 text-foreground font-bold">
+            Powered by <span className="animated-gradient-text font-bold">Advanced AI</span>
           </h2>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-foreground">
             Our platform combines cutting-edge AI technology with deep industry expertise to create perfect matches between brands and influencers.
           </p>
         </div>
@@ -69,7 +69,7 @@ const Features = () => {
                 className="relative"
               >
                 <Card 
-                  className={`p-6 cursor-pointer transition-all duration-300 hover:shadow-md ${activeFeature === index ? 'border-primary shadow-md bg-background' : 'bg-background'}`}
+                  className={`p-6 cursor-pointer transition-all duration-300 hover:shadow-md ${activeFeature === index ? 'border-primary shadow-md bg-background' : 'bg-background shadow-sm'}`}
                   onClick={() => scrollToFeature(index)}
                 >
                   <div className="flex items-start gap-4">
