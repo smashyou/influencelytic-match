@@ -1,9 +1,11 @@
 
-import React, { useRef, useEffect } from 'react';
-import { ArrowDown, CheckCircle, LucideIcon } from 'lucide-react';
+import React, { useRef, useEffect, useState } from 'react';
+import { ArrowDown, Users, Briefcase } from 'lucide-react';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const HowItWorks = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [userType, setUserType] = useState<'influencer' | 'brand'>('influencer');
   
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -26,7 +28,7 @@ const HowItWorks = () => {
     return () => observer.disconnect();
   }, []);
 
-  const steps = [
+  const influencerSteps = [
     {
       title: "Connect Social Accounts",
       description: "Influencers securely connect their social media accounts with OAuth for data analysis.",
@@ -53,16 +55,63 @@ const HowItWorks = () => {
     },
   ];
 
+  const brandSteps = [
+    {
+      title: "Define Your Target Audience",
+      description: "Specify the demographics, interests, and engagement metrics you're looking for in an influencer's audience.",
+      color: "from-emerald-500 to-teal-400",
+      delay: 0,
+    },
+    {
+      title: "AI Matches Perfect Influencers",
+      description: "Our algorithm finds verified influencers with authentic followers that match your target audience criteria.",
+      color: "from-cyan-500 to-blue-500",
+      delay: 100,
+    },
+    {
+      title: "Review Analytics & Proposals",
+      description: "Examine detailed analytics about each influencer's audience and review campaign proposals.",
+      color: "from-blue-500 to-indigo-500",
+      delay: 200,
+    },
+    {
+      title: "Manage Campaigns & Track ROI",
+      description: "Launch campaigns, approve content, and measure performance with real-time analytics and reporting.",
+      color: "from-violet-500 to-purple-500",
+      delay: 300,
+    },
+  ];
+
+  const steps = userType === 'influencer' ? influencerSteps : brandSteps;
+
   return (
     <div ref={containerRef} id="how-it-works" className="py-24 md:py-32 bg-background">
       <div className="container mx-auto px-6">
-        <div className="text-center max-w-3xl mx-auto mb-20 reveal">
+        <div className="text-center max-w-3xl mx-auto mb-8 reveal">
           <h2 className="heading-2 mb-4">
             How It <span className="text-primary">Works</span>
           </h2>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-muted-foreground mb-8">
             Our platform makes influencer marketing simple, transparent, and effective.
           </p>
+          
+          {/* Toggle between Influencer and Brand views */}
+          <Tabs 
+            defaultValue="influencer" 
+            className="w-full max-w-md mx-auto"
+            onValueChange={(value) => setUserType(value as 'influencer' | 'brand')}
+          >
+            <TabsList className="grid w-full grid-cols-2 mb-8">
+              <TabsTrigger value="influencer" className="flex items-center gap-2">
+                <Users className="h-4 w-4" />
+                <span>For Influencers</span>
+              </TabsTrigger>
+              <TabsTrigger value="brand" className="flex items-center gap-2">
+                <Briefcase className="h-4 w-4" />
+                <span>For Brands</span>
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
         </div>
 
         <div className="relative">
@@ -71,7 +120,7 @@ const HowItWorks = () => {
 
           <div className="space-y-12 relative">
             {steps.map((step, index) => (
-              <div key={index} className="reveal" style={{ animationDelay: `${step.delay}ms` }}>
+              <div key={`${userType}-step-${index}`} className="reveal" style={{ animationDelay: `${step.delay}ms` }}>
                 <TimelineStep
                   title={step.title}
                   description={step.description}
