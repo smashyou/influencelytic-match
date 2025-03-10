@@ -51,10 +51,10 @@ const Features = () => {
       
       <div className="container mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="heading-2 mb-4 animate-fade-up">
+          <h2 className="heading-2 mb-4 opacity-100">
             Powered by <span className="animated-gradient-text">Advanced AI</span>
           </h2>
-          <p className="text-lg text-muted-foreground animate-fade-up" style={{ animationDelay: '0.1s' }}>
+          <p className="text-lg text-muted-foreground opacity-100">
             Our platform combines cutting-edge AI technology with deep industry expertise to create perfect matches between brands and influencers.
           </p>
         </div>
@@ -69,7 +69,7 @@ const Features = () => {
                 className="relative"
               >
                 <Card 
-                  className={`p-6 cursor-pointer transition-all duration-300 hover:shadow-md ${activeFeature === index ? 'border-primary shadow-md bg-background' : 'bg-transparent'}`}
+                  className={`p-6 cursor-pointer transition-all duration-300 hover:shadow-md ${activeFeature === index ? 'border-primary shadow-md bg-background' : 'bg-background'}`}
                   onClick={() => scrollToFeature(index)}
                 >
                   <div className="flex items-start gap-4">
@@ -139,7 +139,7 @@ const Features = () => {
 
 const FeatureHighlight = ({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) => {
   return (
-    <Card className="p-6 text-center h-full card-hover-effect">
+    <Card className="p-6 text-center h-full bg-background shadow-sm hover:shadow-md transition-all duration-300">
       <div className="p-4 bg-muted rounded-full inline-flex items-center justify-center mb-4">
         {icon}
       </div>
