@@ -103,14 +103,14 @@ const AnalyticsTab = () => {
   const [selectedInfluencer, setSelectedInfluencer] = useState('all');
   
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
+    <div className="space-y-4 md:space-y-6 w-full overflow-x-hidden">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 md:gap-4">
         <h2 className="text-xl font-semibold">Influencer Analytics</h2>
         <Select 
           value={selectedInfluencer} 
           onValueChange={setSelectedInfluencer}
         >
-          <SelectTrigger className="w-[220px]">
+          <SelectTrigger className="w-full sm:w-[220px]">
             <SelectValue placeholder="Select influencer" />
           </SelectTrigger>
           <SelectContent>
@@ -124,42 +124,42 @@ const AnalyticsTab = () => {
       </div>
       
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList>
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="followers">Followers</TabsTrigger>
-          <TabsTrigger value="engagement">Engagement</TabsTrigger>
-          <TabsTrigger value="demographics">Demographics</TabsTrigger>
+        <TabsList className="w-full flex mb-4 overflow-x-auto no-scrollbar">
+          <TabsTrigger value="overview" className="flex-1 text-sm">Overview</TabsTrigger>
+          <TabsTrigger value="followers" className="flex-1 text-sm">Followers</TabsTrigger>
+          <TabsTrigger value="engagement" className="flex-1 text-sm">Engagement</TabsTrigger>
+          <TabsTrigger value="demographics" className="flex-1 text-sm">Demographics</TabsTrigger>
         </TabsList>
         
-        <TabsContent value="overview">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <TabsContent value="overview" className="w-full">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             <Card>
-              <CardHeader>
-                <CardTitle>Followers Growth</CardTitle>
-                <CardDescription>
+              <CardHeader className="p-3 md:p-4">
+                <CardTitle className="text-base md:text-lg">Followers Growth</CardTitle>
+                <CardDescription className="text-xs md:text-sm">
                   Follower count across platforms over time
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="h-80">
+              <CardContent className="p-3 md:p-4">
+                <div className="h-[200px] md:h-[250px]">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart
                       data={MOCK_FOLLOWERS_DATA}
                       margin={{
                         top: 5,
-                        right: 30,
-                        left: 20,
+                        right: 10,
+                        left: 0,
                         bottom: 5,
                       }}
                     >
                       <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="name" />
-                      <YAxis />
+                      <XAxis dataKey="name" tick={{fontSize: 10}} />
+                      <YAxis tick={{fontSize: 10}} />
                       <Tooltip />
-                      <Legend />
-                      <Line type="monotone" dataKey="instagram" stroke="#E1306C" activeDot={{ r: 8 }} />
-                      <Line type="monotone" dataKey="youtube" stroke="#FF0000" />
-                      <Line type="monotone" dataKey="tiktok" stroke="#69C9D0" />
+                      <Legend iconSize={8} wrapperStyle={{fontSize: '10px'}} />
+                      <Line type="monotone" dataKey="instagram" stroke="#E1306C" activeDot={{ r: 6 }} strokeWidth={1.5} />
+                      <Line type="monotone" dataKey="youtube" stroke="#FF0000" strokeWidth={1.5} />
+                      <Line type="monotone" dataKey="tiktok" stroke="#69C9D0" strokeWidth={1.5} />
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
@@ -167,32 +167,32 @@ const AnalyticsTab = () => {
             </Card>
             
             <Card>
-              <CardHeader>
-                <CardTitle>Engagement Rate</CardTitle>
-                <CardDescription>
+              <CardHeader className="p-3 md:p-4">
+                <CardTitle className="text-base md:text-lg">Engagement Rate</CardTitle>
+                <CardDescription className="text-xs md:text-sm">
                   Average engagement rate across platforms
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="h-80">
+              <CardContent className="p-3 md:p-4">
+                <div className="h-[200px] md:h-[250px]">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart
                       data={MOCK_ENGAGEMENT_DATA}
                       margin={{
                         top: 5,
-                        right: 30,
-                        left: 20,
+                        right: 10,
+                        left: 0,
                         bottom: 5,
                       }}
                     >
                       <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="name" />
-                      <YAxis />
+                      <XAxis dataKey="name" tick={{fontSize: 10}} />
+                      <YAxis tick={{fontSize: 10}} />
                       <Tooltip />
-                      <Legend />
-                      <Line type="monotone" dataKey="instagram" stroke="#E1306C" activeDot={{ r: 8 }} />
-                      <Line type="monotone" dataKey="youtube" stroke="#FF0000" />
-                      <Line type="monotone" dataKey="tiktok" stroke="#69C9D0" />
+                      <Legend iconSize={8} wrapperStyle={{fontSize: '10px'}} />
+                      <Line type="monotone" dataKey="instagram" stroke="#E1306C" activeDot={{ r: 6 }} strokeWidth={1.5} />
+                      <Line type="monotone" dataKey="youtube" stroke="#FF0000" strokeWidth={1.5} />
+                      <Line type="monotone" dataKey="tiktok" stroke="#69C9D0" strokeWidth={1.5} />
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
@@ -200,14 +200,14 @@ const AnalyticsTab = () => {
             </Card>
             
             <Card className="md:col-span-2">
-              <CardHeader>
-                <CardTitle>Audience Demographics</CardTitle>
-                <CardDescription>
+              <CardHeader className="p-3 md:p-4">
+                <CardTitle className="text-base md:text-lg">Audience Demographics</CardTitle>
+                <CardDescription className="text-xs md:text-sm">
                   Breakdown of audience demographics
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="h-80 flex items-center justify-center">
+              <CardContent className="p-3 md:p-4">
+                <div className="h-[200px] md:h-[250px] flex items-center justify-center">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
@@ -216,7 +216,7 @@ const AnalyticsTab = () => {
                         cy="50%"
                         labelLine={false}
                         label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                        outerRadius={100}
+                        outerRadius={80}
                         fill="#8884d8"
                         dataKey="value"
                       >
@@ -225,7 +225,7 @@ const AnalyticsTab = () => {
                         ))}
                       </Pie>
                       <Tooltip />
-                      <Legend />
+                      <Legend iconSize={8} wrapperStyle={{fontSize: '10px'}} />
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
@@ -234,34 +234,34 @@ const AnalyticsTab = () => {
           </div>
         </TabsContent>
         
-        <TabsContent value="followers">
+        <TabsContent value="followers" className="w-full">
           <Card>
-            <CardHeader>
-              <CardTitle>Followers Growth</CardTitle>
-              <CardDescription>
+            <CardHeader className="p-3 md:p-4">
+              <CardTitle className="text-base md:text-lg">Followers Growth</CardTitle>
+              <CardDescription className="text-xs md:text-sm">
                 Detailed followers data across platforms
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="h-96">
+            <CardContent className="p-3 md:p-4">
+              <div className="h-[250px] md:h-[350px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart
                     data={MOCK_FOLLOWERS_DATA}
                     margin={{
                       top: 5,
-                      right: 30,
-                      left: 20,
+                      right: 10,
+                      left: 0,
                       bottom: 5,
                     }}
                   >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
+                    <XAxis dataKey="name" tick={{fontSize: 10}} />
+                    <YAxis tick={{fontSize: 10}} />
                     <Tooltip />
-                    <Legend />
-                    <Line type="monotone" dataKey="instagram" stroke="#E1306C" activeDot={{ r: 8 }} />
-                    <Line type="monotone" dataKey="youtube" stroke="#FF0000" />
-                    <Line type="monotone" dataKey="tiktok" stroke="#69C9D0" />
+                    <Legend iconSize={8} wrapperStyle={{fontSize: '10px'}} />
+                    <Line type="monotone" dataKey="instagram" stroke="#E1306C" activeDot={{ r: 6 }} strokeWidth={1.5} />
+                    <Line type="monotone" dataKey="youtube" stroke="#FF0000" strokeWidth={1.5} />
+                    <Line type="monotone" dataKey="tiktok" stroke="#69C9D0" strokeWidth={1.5} />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -269,34 +269,34 @@ const AnalyticsTab = () => {
           </Card>
         </TabsContent>
         
-        <TabsContent value="engagement">
+        <TabsContent value="engagement" className="w-full">
           <Card>
-            <CardHeader>
-              <CardTitle>Engagement Rate</CardTitle>
-              <CardDescription>
+            <CardHeader className="p-3 md:p-4">
+              <CardTitle className="text-base md:text-lg">Engagement Rate</CardTitle>
+              <CardDescription className="text-xs md:text-sm">
                 Detailed engagement metrics across platforms
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="h-96">
+            <CardContent className="p-3 md:p-4">
+              <div className="h-[250px] md:h-[350px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart
                     data={MOCK_ENGAGEMENT_DATA}
                     margin={{
                       top: 5,
-                      right: 30,
-                      left: 20,
+                      right: 10,
+                      left: 0,
                       bottom: 5,
                     }}
                   >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
+                    <XAxis dataKey="name" tick={{fontSize: 10}} />
+                    <YAxis tick={{fontSize: 10}} />
                     <Tooltip />
-                    <Legend />
-                    <Line type="monotone" dataKey="instagram" stroke="#E1306C" activeDot={{ r: 8 }} />
-                    <Line type="monotone" dataKey="youtube" stroke="#FF0000" />
-                    <Line type="monotone" dataKey="tiktok" stroke="#69C9D0" />
+                    <Legend iconSize={8} wrapperStyle={{fontSize: '10px'}} />
+                    <Line type="monotone" dataKey="instagram" stroke="#E1306C" activeDot={{ r: 6 }} strokeWidth={1.5} />
+                    <Line type="monotone" dataKey="youtube" stroke="#FF0000" strokeWidth={1.5} />
+                    <Line type="monotone" dataKey="tiktok" stroke="#69C9D0" strokeWidth={1.5} />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -304,17 +304,17 @@ const AnalyticsTab = () => {
           </Card>
         </TabsContent>
         
-        <TabsContent value="demographics">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <TabsContent value="demographics" className="w-full">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             <Card>
-              <CardHeader>
-                <CardTitle>Age Distribution</CardTitle>
-                <CardDescription>
+              <CardHeader className="p-3 md:p-4">
+                <CardTitle className="text-base md:text-lg">Age Distribution</CardTitle>
+                <CardDescription className="text-xs md:text-sm">
                   Breakdown of audience age groups
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="h-80">
+              <CardContent className="p-3 md:p-4">
+                <div className="h-[200px] md:h-[250px]">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
@@ -323,7 +323,7 @@ const AnalyticsTab = () => {
                         cy="50%"
                         labelLine={false}
                         label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                        outerRadius={100}
+                        outerRadius={80}
                         fill="#8884d8"
                         dataKey="value"
                       >
@@ -332,7 +332,7 @@ const AnalyticsTab = () => {
                         ))}
                       </Pie>
                       <Tooltip />
-                      <Legend />
+                      <Legend iconSize={8} wrapperStyle={{fontSize: '10px'}} />
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
@@ -340,14 +340,14 @@ const AnalyticsTab = () => {
             </Card>
             
             <Card>
-              <CardHeader>
-                <CardTitle>Geographic Distribution</CardTitle>
-                <CardDescription>
+              <CardHeader className="p-3 md:p-4">
+                <CardTitle className="text-base md:text-lg">Geographic Distribution</CardTitle>
+                <CardDescription className="text-xs md:text-sm">
                   Top countries and regions
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="h-80">
+              <CardContent className="p-3 md:p-4">
+                <div className="h-[200px] md:h-[250px]">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart
                       data={[
@@ -360,16 +360,16 @@ const AnalyticsTab = () => {
                       ]}
                       margin={{
                         top: 5,
-                        right: 30,
-                        left: 20,
+                        right: 10,
+                        left: 0,
                         bottom: 5,
                       }}
                     >
                       <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="country" />
-                      <YAxis />
+                      <XAxis dataKey="country" tick={{fontSize: 10}} />
+                      <YAxis tick={{fontSize: 10}} />
                       <Tooltip />
-                      <Legend />
+                      <Legend iconSize={8} wrapperStyle={{fontSize: '10px'}} />
                       <Bar dataKey="value" name="Percentage" fill="#8884d8" />
                     </BarChart>
                   </ResponsiveContainer>
