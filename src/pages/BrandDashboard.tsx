@@ -54,17 +54,17 @@ const BrandDashboard = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar transparent={false} />
-      <main className="flex-grow pt-24 pb-16 px-6">
+      <main className="flex-grow pt-20 md:pt-24 pb-10 md:pb-16 px-4 md:px-6">
         <div className="container mx-auto max-w-7xl">
-          <div className="bg-card border rounded-lg shadow-subtle p-8">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+          <div className="bg-card border rounded-lg shadow-subtle p-4 md:p-8">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 md:mb-8">
               <div>
-                <h1 className="text-3xl font-bold">Brand Dashboard</h1>
-                <p className="text-muted-foreground mt-1">
+                <h1 className="text-2xl md:text-3xl font-bold">Brand Dashboard</h1>
+                <p className="text-muted-foreground mt-1 text-sm md:text-base">
                   Create campaigns and find the perfect influencers for your brand
                 </p>
               </div>
-              <Button variant="outline" onClick={handleSignOut}>
+              <Button variant="outline" onClick={handleSignOut} size="sm" className="w-full md:w-auto">
                 Sign Out
               </Button>
             </div>

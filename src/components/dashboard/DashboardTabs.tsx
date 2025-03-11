@@ -18,10 +18,10 @@ const DashboardTabs = ({
 }: DashboardTabsProps) => {
   return (
     <Tabs defaultValue="overview" className="w-full">
-      <TabsList className="mb-8">
-        <TabsTrigger value="overview">Overview</TabsTrigger>
-        <TabsTrigger value="platforms">Platforms</TabsTrigger>
-        <TabsTrigger value="analytics">Analytics</TabsTrigger>
+      <TabsList className="mb-6 md:mb-8 w-full flex justify-start overflow-x-auto">
+        <TabsTrigger value="overview" className="flex-1 md:flex-none">Overview</TabsTrigger>
+        <TabsTrigger value="platforms" className="flex-1 md:flex-none">Platforms</TabsTrigger>
+        <TabsTrigger value="analytics" className="flex-1 md:flex-none">Analytics</TabsTrigger>
       </TabsList>
       
       <TabsContent value="overview">
