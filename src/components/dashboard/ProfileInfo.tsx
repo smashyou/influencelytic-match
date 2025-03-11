@@ -10,7 +10,7 @@ interface ProfileInfoProps {
 }
 
 const ProfileInfo = ({ user, profile }: ProfileInfoProps) => {
-  const userTypeName = profile?.user_type === 'influencer' ? 'Influencer' : 'Brand';
+  const userTypeName = profile?.user_type === 'influencer' ? 'Influencer' : 'Business';
 
   return (
     <div className="mb-6 md:mb-8">

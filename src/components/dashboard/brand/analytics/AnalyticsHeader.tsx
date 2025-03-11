@@ -10,7 +10,7 @@ interface AnalyticsHeaderProps {
 const AnalyticsHeader = ({ selectedInfluencer, setSelectedInfluencer }: AnalyticsHeaderProps) => {
   return (
     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 md:gap-4">
-      <h2 className="text-xl font-semibold">Influencer Analytics</h2>
+      <h2 className="text-xl font-semibold">Business Analytics</h2>
       <Select 
         value={selectedInfluencer} 
         onValueChange={setSelectedInfluencer}
