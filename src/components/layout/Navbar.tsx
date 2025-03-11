@@ -50,6 +50,18 @@ const Navbar = ({ transparent = false }: NavbarProps) => {
     }
   };
 
+  // When the menu is open, prevent scrolling of the body
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   return (
     <nav className={navbarClasses}>
       <div className="container mx-auto flex items-center justify-between">
@@ -104,7 +116,7 @@ const Navbar = ({ transparent = false }: NavbarProps) => {
 
       {/* Mobile Menu */}
       <div className={cn(
-        "fixed inset-0 bg-background flex flex-col pt-20 px-4 md:px-6 z-40 transition-transform duration-300 ease-in-out md:hidden",
+        "fixed inset-0 bg-background pt-20 px-4 md:px-6 z-40 transition-transform duration-300 ease-in-out md:hidden",
         isOpen ? "translate-x-0" : "translate-x-full"
       )}>
         <div className="flex flex-col gap-4 md:gap-6 items-start">
