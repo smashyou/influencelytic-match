@@ -46,7 +46,9 @@ const Dashboard = () => {
     };
 
     const fetchConnectedPlatforms = async () => {
-      setConnectedPlatforms(['instagram', 'youtube']);
+      // In a real app, this would fetch from the database
+      // For now, use mock data
+      setConnectedPlatforms(['instagram', 'tiktok', 'youtube']);
     };
 
     getProfile();
@@ -92,7 +94,7 @@ const Dashboard = () => {
             <div className="mb-6 md:mb-8">
               <h1 className="text-2xl md:text-3xl font-bold">Influencer Dashboard</h1>
               <p className="text-muted-foreground mt-1 text-sm md:text-base">
-                Connect your social platforms and track your performance
+                Connect your social platforms, find opportunities, and track your performance
               </p>
             </div>
 
