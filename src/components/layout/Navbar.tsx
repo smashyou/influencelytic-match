@@ -1,10 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
+import NavLinks from './navbar/NavLinks';
+import MobileMenu from './navbar/MobileMenu';
+import DesktopMenu from './navbar/DesktopMenu';
+import Logo from './navbar/Logo';
 
 interface NavbarProps {
   transparent?: boolean;
@@ -65,40 +67,14 @@ const Navbar = ({ transparent = false }: NavbarProps) => {
   return (
     <nav className={navbarClasses}>
       <div className="container mx-auto flex items-center justify-between">
-        <Link 
-          to="/" 
-          className="flex items-center gap-2"
-        >
-          <span className="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
-            influencelytic
-          </span>
-        </Link>
+        <Logo />
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-6 md:gap-8">
-          <NavLinks scrollToSection={scrollToSection} />
-          <div className="flex items-center gap-2 md:gap-4">
-            {user ? (
-              <>
-                <Button asChild variant="ghost" className="button-hover-effect text-sm" size="sm">
-                  <Link to="/dashboard">Dashboard</Link>
-                </Button>
-                <Button onClick={handleSignOut} variant="outline" className="button-hover-effect text-sm" size="sm">
-                  Sign Out
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button asChild variant="ghost" className="button-hover-effect text-sm" size="sm">
-                  <Link to="/signin">Sign In</Link>
-                </Button>
-                <Button asChild className="button-hover-effect text-sm" size="sm">
-                  <Link to="/signup">Get Started</Link>
-                </Button>
-              </>
-            )}
-          </div>
-        </div>
+        <DesktopMenu 
+          user={user} 
+          signOut={handleSignOut} 
+          scrollToSection={scrollToSection} 
+        />
 
         {/* Mobile Menu Button */}
         <button 
@@ -115,94 +91,14 @@ const Navbar = ({ transparent = false }: NavbarProps) => {
       </div>
 
       {/* Mobile Menu */}
-      <div className={cn(
-        "fixed inset-0 bg-background pt-20 px-4 md:px-6 z-40 transition-transform duration-300 ease-in-out md:hidden",
-        isOpen ? "translate-x-0" : "translate-x-full"
-      )}>
-        <div className="flex flex-col gap-4 md:gap-6 items-start">
-          <NavLinks mobile onClick={() => setIsOpen(false)} scrollToSection={scrollToSection} />
-        </div>
-        <div className="flex flex-col gap-3 md:gap-4 mt-6">
-          {user ? (
-            <>
-              <Button asChild variant="outline" className="w-full" size="sm">
-                <Link to="/dashboard" onClick={() => setIsOpen(false)}>Dashboard</Link>
-              </Button>
-              <Button onClick={() => { handleSignOut(); setIsOpen(false); }} className="w-full" size="sm">
-                Sign Out
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button asChild variant="outline" className="w-full" size="sm">
-                <Link to="/signin" onClick={() => setIsOpen(false)}>Sign In</Link>
-              </Button>
-              <Button asChild className="w-full" size="sm">
-                <Link to="/signup" onClick={() => setIsOpen(false)}>Get Started</Link>
-              </Button>
-            </>
-          )}
-        </div>
-      </div>
+      <MobileMenu 
+        isOpen={isOpen} 
+        user={user} 
+        onSignOut={handleSignOut}
+        scrollToSection={scrollToSection}
+        onClose={() => setIsOpen(false)}
+      />
     </nav>
-  );
-};
-
-interface NavLinksProps {
-  mobile?: boolean;
-  onClick?: () => void;
-  scrollToSection?: (e: React.MouseEvent<HTMLAnchorElement>, id: string) => void;
-}
-
-const NavLinks = ({ mobile = false, onClick = () => {}, scrollToSection }: NavLinksProps) => {
-  const linkClass = cn(
-    "transition-colors duration-200 hover:text-primary",
-    mobile ? "text-lg md:text-xl py-2" : "text-xs md:text-sm font-medium"
-  );
-
-  return (
-    <>
-      <a 
-        href="#features" 
-        className={linkClass} 
-        onClick={(e) => {
-          if (scrollToSection) scrollToSection(e, 'features');
-          onClick();
-        }}
-      >
-        Features
-      </a>
-      <a 
-        href="#pricing" 
-        className={linkClass} 
-        onClick={(e) => {
-          if (scrollToSection) scrollToSection(e, 'pricing');
-          onClick();
-        }}
-      >
-        Pricing
-      </a>
-      <a 
-        href="#how-it-works" 
-        className={linkClass} 
-        onClick={(e) => {
-          if (scrollToSection) scrollToSection(e, 'how-it-works');
-          onClick();
-        }}
-      >
-        How It Works
-      </a>
-      <a 
-        href="#contact" 
-        className={linkClass} 
-        onClick={(e) => {
-          if (scrollToSection) scrollToSection(e, 'contact');
-          onClick();
-        }}
-      >
-        Contact
-      </a>
-    </>
   );
 };
 
