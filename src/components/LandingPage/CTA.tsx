@@ -39,7 +39,7 @@ const CTA = () => {
             <span className="block mt-2 animated-gradient-text">Influencer Marketing?</span>
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Join thousands of influencers and brands already using our platform to create 
+            Join thousands of influencers and businesses already using our platform to create 
             authentic, high-performing partnerships.
           </p>
           

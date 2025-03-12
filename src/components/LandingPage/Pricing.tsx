@@ -15,7 +15,7 @@ const Pricing = () => {
       features: [
         "Connect up to 3 social accounts",
         "Basic audience analytics",
-        "Up to 5 brand connections per month",
+        "Up to 5 business connections per month",
         "Standard AI matching algorithm",
         "Community support"
       ],
@@ -30,7 +30,7 @@ const Pricing = () => {
       features: [
         "Connect unlimited social accounts",
         "Advanced audience analytics",
-        "Unlimited brand connections",
+        "Unlimited business connections",
         "Premium AI matching algorithm",
         "Fake follower detection",
         "Priority support",
@@ -42,7 +42,7 @@ const Pricing = () => {
     },
     {
       name: "Business",
-      description: "For brands looking to find the perfect influencers",
+      description: "For businesses looking to find the perfect influencers",
       price: 99,
       features: [
         "All Pro features",
@@ -110,7 +110,7 @@ const Pricing = () => {
             <div>
               <h3 className="text-xl font-semibold mb-2">Need a custom plan?</h3>
               <p className="text-muted-foreground mb-4">
-                We offer custom enterprise solutions for large brands and agencies. Contact our sales team to discuss your specific needs.
+                We offer custom enterprise solutions for large businesses and agencies. Contact our sales team to discuss your specific needs.
               </p>
               <Button asChild variant="outline">
                 <Link to="/contact">Contact Sales</Link>

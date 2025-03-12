@@ -14,13 +14,13 @@ const Testimonials = () => {
     {
       name: "Sarah Johnson",
       role: "Fashion Influencer, 500K+ followers",
-      content: "This platform has completely transformed how I approach brand collaborations. The AI matching helps me find brands that align perfectly with my audience, and I've increased my earnings by 40% in just three months.",
+      content: "This platform has completely transformed how I approach business collaborations. The AI matching helps me find businesses that align perfectly with my audience, and I've increased my earnings by 40% in just three months.",
       avatar: "https://i.pravatar.cc/150?img=32",
       rating: 5,
     },
     {
       name: "David Chen",
-      role: "Marketing Director at StyleBrand",
+      role: "Marketing Director at StyleBusiness",
       content: "We've tried several influencer platforms, but none provided the level of audience insights and fraud detection that this one does. We've seen a 3x ROI on our campaigns since switching.",
       avatar: "https://i.pravatar.cc/150?img=12",
       rating: 5,
@@ -28,7 +28,7 @@ const Testimonials = () => {
     {
       name: "Emma Wilson",
       role: "Travel Content Creator, 250K+ followers",
-      content: "The pricing suggestions are spot-on. I was undercharging for years, and now I have data-backed rates that brands understand and respect. Plus, getting paid through the platform is always on time.",
+      content: "The pricing suggestions are spot-on. I was undercharging for years, and now I have data-backed rates that businesses understand and respect. Plus, getting paid through the platform is always on time.",
       avatar: "https://i.pravatar.cc/150?img=29",
       rating: 4,
     },
@@ -66,7 +66,7 @@ const Testimonials = () => {
       <div className="container mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="heading-2 mb-4">
-            Loved by Influencers and Brands
+            Loved by Influencers and Businesses
           </h2>
           <p className="text-lg text-muted-foreground">
             See what our users are saying about the platform.
