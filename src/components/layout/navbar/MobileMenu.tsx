@@ -7,6 +7,7 @@ import NavLinks from './NavLinks';
 import { User } from '@supabase/supabase-js';
 import { X } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { toast } from 'sonner';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -31,6 +32,7 @@ const MobileMenu = ({ isOpen, user, onSignOut, scrollToSection, onClose }: Mobil
       onClose();
     } catch (error) {
       console.error('Error during sign out:', error);
+      toast.error('Failed to sign out. Please try again.');
     }
   };
 

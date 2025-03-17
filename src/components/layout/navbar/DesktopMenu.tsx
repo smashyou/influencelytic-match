@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import NavLinks from './NavLinks';
 import { User } from '@supabase/supabase-js';
+import { toast } from 'sonner';
 
 interface DesktopMenuProps {
   user: User | null;
@@ -17,6 +18,7 @@ const DesktopMenu = ({ user, signOut, scrollToSection }: DesktopMenuProps) => {
       await signOut();
     } catch (error) {
       console.error('Error during sign out:', error);
+      toast.error('Failed to sign out. Please try again.');
     }
   };
 

@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { Session, User } from '@supabase/supabase-js';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
 type AuthContextType = {
   session: Session | null;
@@ -103,9 +104,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signOut = async () => {
     try {
       console.log('Signing out...');
-      const { error } = await supabase.auth.signOut();
+      const { error } = await supabase.auth.signOut({
+        scope: 'local'  // Only clear local session, not server-side
+      });
+      
       if (error) {
         console.error('Error signing out:', error);
+        toast.error('Could not sign out. Please try again.');
+        throw error;
       } else {
         console.log('Sign out successful');
         // Clear local state
@@ -113,10 +119,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setSession(null);
         setUserProfile(null);
         // Redirect to home page
+        toast.success('Successfully signed out');
         navigate('/');
       }
     } catch (error) {
       console.error('Unexpected error during sign out:', error);
+      // Even if there's an error, we should still clear the local state and redirect
+      setUser(null);
+      setSession(null);
+      setUserProfile(null);
+      navigate('/');
     }
   };
 
