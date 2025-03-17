@@ -25,6 +25,15 @@ const MobileMenu = ({ isOpen, user, onSignOut, scrollToSection, onClose }: Mobil
     }
   };
 
+  const handleSignOut = async () => {
+    try {
+      await onSignOut();
+      onClose();
+    } catch (error) {
+      console.error('Error during sign out:', error);
+    }
+  };
+
   return (
     <div 
       className={cn(
@@ -62,7 +71,7 @@ const MobileMenu = ({ isOpen, user, onSignOut, scrollToSection, onClose }: Mobil
                 <Button asChild variant="outline" className="w-full" size="sm">
                   <Link to="/dashboard" onClick={onClose}>Dashboard</Link>
                 </Button>
-                <Button onClick={() => { onSignOut(); onClose(); }} className="w-full" size="sm">
+                <Button onClick={handleSignOut} className="w-full" size="sm">
                   Sign Out
                 </Button>
               </>

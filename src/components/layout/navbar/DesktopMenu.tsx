@@ -12,6 +12,14 @@ interface DesktopMenuProps {
 }
 
 const DesktopMenu = ({ user, signOut, scrollToSection }: DesktopMenuProps) => {
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error('Error during sign out:', error);
+    }
+  };
+
   return (
     <div className="hidden md:flex items-center gap-6 md:gap-8">
       <NavLinks scrollToSection={scrollToSection} />
@@ -21,7 +29,7 @@ const DesktopMenu = ({ user, signOut, scrollToSection }: DesktopMenuProps) => {
             <Button asChild variant="ghost" className="button-hover-effect text-sm" size="sm">
               <Link to="/dashboard">Dashboard</Link>
             </Button>
-            <Button onClick={signOut} variant="outline" className="button-hover-effect text-sm" size="sm">
+            <Button onClick={handleSignOut} variant="outline" className="button-hover-effect text-sm" size="sm">
               Sign Out
             </Button>
           </>
