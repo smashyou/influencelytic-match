@@ -32,24 +32,24 @@ const MobileMenu = ({ isOpen, user, onSignOut, scrollToSection, onClose }: Mobil
     >
       <div 
         className={cn(
-          "fixed top-0 right-0 h-full w-[280px] bg-background border-l shadow-lg p-4 transition-transform duration-300 ease-in-out overflow-y-auto",
+          "fixed top-0 right-0 h-full w-[85%] max-w-[350px] bg-background border-l shadow-lg p-6 transition-transform duration-300 ease-in-out overflow-y-auto",
           isOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
-        <div className="flex justify-end mb-4">
+        <div className="flex justify-end mb-6">
           <Button 
             variant="ghost" 
             size="icon" 
             onClick={onClose} 
-            className="h-8 w-8"
+            className="h-10 w-10"
             aria-label="Close menu"
           >
-            <X className="h-4 w-4" />
+            <X className="h-5 w-5" />
           </Button>
         </div>
         
-        <div className="flex flex-col h-[calc(100%-40px)]">
-          <div className="flex flex-col gap-6 items-start mb-8">
+        <div className="flex flex-col h-[calc(100%-60px)]">
+          <div className="flex flex-col gap-8 items-start mb-12">
             <NavLinks mobile onClick={onClose} scrollToSection={scrollToSection} />
           </div>
           
