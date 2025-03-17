@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { Menu, X } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import NavLinks from './navbar/NavLinks';
 import MobileMenu from './navbar/MobileMenu';
@@ -82,11 +82,7 @@ const Navbar = ({ transparent = false }: NavbarProps) => {
           onClick={toggleMenu}
           aria-label="Toggle menu"
         >
-          {isOpen ? (
-            <X className="h-5 w-5" />
-          ) : (
-            <Menu className="h-5 w-5" />
-          )}
+          <Menu className="h-5 w-5" />
         </button>
       </div>
 
