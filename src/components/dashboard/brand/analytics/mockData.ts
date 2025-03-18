@@ -79,47 +79,20 @@ export const MOCK_ENGAGEMENT_DATA = [
   },
 ];
 
-export const MOCK_DEMOGRAPHICS_AGE = [
+export const MOCK_DEMOGRAPHICS_DATA = [
   { name: '18-24', value: 35 },
   { name: '25-34', value: 40 },
   { name: '35-44', value: 15 },
   { name: '45+', value: 10 },
 ];
 
-export const MOCK_DEMOGRAPHICS_GENDER = [
-  { name: 'Female', value: 62 },
-  { name: 'Male', value: 35 },
-  { name: 'Other', value: 3 },
-];
-
-export const MOCK_LOCATIONS = [
-  { name: 'USA', value: 45 },
-  { name: 'UK', value: 15 },
-  { name: 'Canada', value: 12 },
-  { name: 'Australia', value: 8 },
-  { name: 'Germany', value: 6 },
-];
-
-export const MOCK_GROWTH_DATA = [
-  { name: 'Jan', instagram: 10100, youtube: 7800, tiktok: 13200 },
-  { name: 'Feb', instagram: 11200, youtube: 8100, tiktok: 14800 },
-  { name: 'Mar', instagram: 12400, youtube: 8700, tiktok: 16500 },
-  { name: 'Apr', instagram: 14000, youtube: 9300, tiktok: 18400 },
-  { name: 'May', instagram: 15200, youtube: 10100, tiktok: 20700 },
-  { name: 'Jun', instagram: 16800, youtube: 11000, tiktok: 23500 },
-];
-
-// Add the missing data that's referenced in the code
-export const MOCK_DEMOGRAPHICS_DATA = MOCK_DEMOGRAPHICS_AGE;
 export const MOCK_GEOGRAPHIC_DATA = [
-  { name: 'United States', value: 45 },
-  { name: 'United Kingdom', value: 15 },
-  { name: 'Canada', value: 12 },
-  { name: 'Australia', value: 8 },
-  { name: 'Germany', value: 6 },
-  { name: 'France', value: 4 },
-  { name: 'Japan', value: 3 },
-  { name: 'Other', value: 7 },
+  { country: 'USA', value: 45 },
+  { country: 'UK', value: 15 },
+  { country: 'Canada', value: 12 },
+  { country: 'Australia', value: 8 },
+  { country: 'Germany', value: 6 },
+  { country: 'Other', value: 14 },
 ];
 
-export const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
+export const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
