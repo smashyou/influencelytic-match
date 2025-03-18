@@ -1,13 +1,17 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Check, HelpCircle } from 'lucide-react';
+import { Check, HelpCircle, Building, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Switch } from '@/components/ui/switch';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 const Pricing = () => {
-  const pricingPlans = [
+  const [userType, setUserType] = useState<'influencer' | 'business'>('influencer');
+
+  const influencerPlans = [
     {
       name: "Starter",
       description: "Perfect for influencers just getting started",
@@ -41,18 +45,70 @@ const Pricing = () => {
       buttonVariant: "default" as const,
     },
     {
+      name: "Premium",
+      description: "For established influencers who want maximum exposure",
+      price: 79,
+      features: [
+        "All Pro features",
+        "First access to exclusive campaigns",
+        "Brand relationship manager",
+        "Personalized growth strategy",
+        "Content performance analytics",
+        "Dedicated support team",
+        "Early access to new features"
+      ],
+      isPopular: false,
+      buttonText: "Get Premium",
+      buttonVariant: "outline" as const,
+    }
+  ];
+
+  const businessPlans = [
+    {
+      name: "Basic",
+      description: "For small businesses starting with influencer marketing",
+      price: 49,
+      features: [
+        "Connect with up to 5 influencers",
+        "Basic campaign analytics",
+        "AI matching algorithm",
+        "Campaign template library",
+        "Community support"
+      ],
+      isPopular: false,
+      buttonText: "Get Started",
+      buttonVariant: "outline" as const,
+    },
+    {
       name: "Business",
       description: "For businesses looking to find the perfect influencers",
       price: 99,
       features: [
-        "All Pro features",
+        "Connect with unlimited influencers",
         "Advanced influencer search",
         "Campaign management tools",
         "ROI analytics dashboard",
         "Multiple team members",
         "Dedicated account manager",
-        "API access",
-        "Custom contracts"
+        "API access"
+      ],
+      isPopular: true,
+      buttonText: "Start Free Trial",
+      buttonVariant: "default" as const,
+    },
+    {
+      name: "Enterprise",
+      description: "Custom solution for large brands and agencies",
+      price: 299,
+      features: [
+        "All Business features",
+        "Custom contracts",
+        "White-label solution",
+        "Advanced reporting & analytics",
+        "Multiple brand management",
+        "Custom integrations",
+        "Executive strategy sessions",
+        "24/7 priority support"
       ],
       isPopular: false,
       buttonText: "Contact Sales",
@@ -60,18 +116,38 @@ const Pricing = () => {
     }
   ];
 
+  const activePlans = userType === 'influencer' ? influencerPlans : businessPlans;
+
   return (
     <div id="pricing" className="py-24 md:py-32 bg-secondary/30">
       <div className="container mx-auto px-6">
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <div className="text-center max-w-3xl mx-auto mb-8">
           <h2 className="heading-2 mb-4">Simple, Transparent Pricing</h2>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-muted-foreground mb-8">
             Choose the plan that best fits your needs. All plans include AI matching and secure payments.
           </p>
+          
+          <div className="flex items-center justify-center gap-4 mb-10">
+            <ToggleGroup 
+              type="single" 
+              value={userType}
+              onValueChange={(value) => value && setUserType(value as 'influencer' | 'business')}
+              className="border rounded-lg p-1"
+            >
+              <ToggleGroupItem value="influencer" className="flex items-center gap-2 px-4">
+                <User className="h-4 w-4" />
+                <span>Influencers</span>
+              </ToggleGroupItem>
+              <ToggleGroupItem value="business" className="flex items-center gap-2 px-4">
+                <Building className="h-4 w-4" />
+                <span>Businesses</span>
+              </ToggleGroupItem>
+            </ToggleGroup>
+          </div>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {pricingPlans.map((plan, index) => (
+          {activePlans.map((plan, index) => (
             <Card key={index} className={`relative overflow-hidden p-6 flex flex-col h-full ${plan.isPopular ? 'border-primary shadow-md' : ''}`}>
               {plan.isPopular && (
                 <div className="absolute top-0 right-0 -m-1">
