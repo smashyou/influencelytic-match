@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
@@ -82,10 +81,7 @@ const Dashboard = () => {
   };
 
   const navigateToPlatforms = () => {
-    const platformsTab = document.querySelector('[data-value="platforms"]');
-    if (platformsTab instanceof HTMLElement) {
-      platformsTab.click();
-    }
+    // No longer needed as we're using sidebar navigation
   };
 
   return (
@@ -99,6 +95,7 @@ const Dashboard = () => {
             connectedPlatforms={connectedPlatforms}
             handleConnectPlatform={handleConnectPlatform}
             navigateToPlatforms={navigateToPlatforms}
+            activeTab={activeTab}
           />
         </div>
       )}
