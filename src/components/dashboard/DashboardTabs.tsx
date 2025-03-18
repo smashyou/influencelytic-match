@@ -19,18 +19,27 @@ const DashboardTabs = ({
   navigateToPlatforms,
   activeTab
 }: DashboardTabsProps) => {
+  // Display the appropriate content based on the active tab
+  const renderContent = () => {
+    switch(activeTab) {
+      case 'overview':
+        return <AnalyticsOverview connectedPlatforms={connectedPlatforms} />;
+      case 'platforms':
+        return <PlatformsTab connectedPlatforms={connectedPlatforms} handleConnectPlatform={handleConnectPlatform} />;
+      case 'opportunities':
+        return <OpportunitiesTab />;
+      case 'business-match':
+        return <BusinessMatchTab />;
+      case 'followers-analytics':
+        return <FollowersAnalyticsTab connectedPlatforms={connectedPlatforms} navigateToPlatforms={navigateToPlatforms} />;
+      default:
+        return <AnalyticsOverview connectedPlatforms={connectedPlatforms} />;
+    }
+  };
+
   return (
     <div className="w-full">
-      {activeTab === 'overview' && <AnalyticsOverview connectedPlatforms={connectedPlatforms} />}
-      {activeTab === 'platforms' && <PlatformsTab connectedPlatforms={connectedPlatforms} handleConnectPlatform={handleConnectPlatform} />}
-      {activeTab === 'opportunities' && <OpportunitiesTab />}
-      {activeTab === 'business-match' && <BusinessMatchTab />}
-      {activeTab === 'followers-analytics' && (
-        <FollowersAnalyticsTab 
-          connectedPlatforms={connectedPlatforms} 
-          navigateToPlatforms={navigateToPlatforms} 
-        />
-      )}
+      {renderContent()}
     </div>
   );
 };

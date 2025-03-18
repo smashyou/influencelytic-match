@@ -1,7 +1,8 @@
+
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
-import { initiateSocialAuth } from '@/services/social-auth';
+import { initiateSocialAuth, getUserSocialConnections } from '@/services/social-auth';
 import { toast } from '@/components/ui/use-toast';
 import ProfileInfo from '@/components/dashboard/ProfileInfo';
 import DashboardTabs from '@/components/dashboard/DashboardTabs';
@@ -42,15 +43,14 @@ const Dashboard = () => {
         }
       } catch (error) {
         console.error('Error:', error);
-      } finally {
-        setLoading(false);
       }
     };
 
     const fetchConnectedPlatforms = async () => {
-      // In a real app, this would fetch from the database
-      // For now, use mock data
-      setConnectedPlatforms(['instagram', 'tiktok', 'youtube']);
+      // Try to get connected platforms from the database
+      const platforms = await getUserSocialConnections();
+      setConnectedPlatforms(platforms);
+      setLoading(false);
     };
 
     getProfile();
@@ -81,7 +81,7 @@ const Dashboard = () => {
   };
 
   const navigateToPlatforms = () => {
-    // No longer needed as we're using sidebar navigation
+    // This is handled by the sidebar navigation now
   };
 
   return (
