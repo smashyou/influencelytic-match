@@ -1,11 +1,12 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import AnalyticsOverview from './AnalyticsOverview';
 import PlatformsTab from './PlatformsTab';
 import OpportunitiesTab from './OpportunitiesTab';
 import BusinessMatchTab from './BusinessMatchTab';
 import FollowersAnalyticsTab from './FollowersAnalyticsTab';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface DashboardTabsProps {
   connectedPlatforms: string[];
@@ -18,8 +19,17 @@ const DashboardTabs = ({
   handleConnectPlatform,
   navigateToPlatforms 
 }: DashboardTabsProps) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const searchParams = new URLSearchParams(location.search);
+  const activeTab = searchParams.get('tab') || 'overview';
+
+  const handleTabChange = (value: string) => {
+    navigate(`/dashboard?tab=${value}`, { replace: true });
+  };
+
   return (
-    <Tabs defaultValue="overview" className="w-full">
+    <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
       <TabsList className="mb-6 md:mb-8 w-full flex justify-start overflow-x-auto">
         <TabsTrigger value="overview" className="flex-1 md:flex-none">Overview</TabsTrigger>
         <TabsTrigger value="platforms" className="flex-1 md:flex-none">Platforms</TabsTrigger>

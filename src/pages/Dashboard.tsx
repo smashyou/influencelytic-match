@@ -2,12 +2,12 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
-import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
-import { toast } from '@/components/ui/use-toast';
 import { initiateSocialAuth } from '@/services/social-auth';
+import { toast } from '@/components/ui/use-toast';
 import ProfileInfo from '@/components/dashboard/ProfileInfo';
 import DashboardTabs from '@/components/dashboard/DashboardTabs';
+import DashboardLayout from '@/components/dashboard/layout/DashboardLayout';
+import { useLocation } from 'react-router-dom';
 
 type Profile = {
   id: string;
@@ -21,6 +21,9 @@ const Dashboard = () => {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [connectedPlatforms, setConnectedPlatforms] = useState<string[]>([]);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const activeTab = searchParams.get('tab') || 'overview';
 
   useEffect(() => {
     const getProfile = async () => {
@@ -86,35 +89,20 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Navbar transparent={false} />
-      <main className="flex-grow pt-20 md:pt-24 pb-10 md:pb-16 px-4 md:px-6">
-        <div className="container mx-auto max-w-7xl">
-          <div className="bg-card border rounded-lg shadow-subtle p-4 md:p-8">
-            <div className="mb-6 md:mb-8">
-              <h1 className="text-2xl md:text-3xl font-bold">Influencer Dashboard</h1>
-              <p className="text-muted-foreground mt-1 text-sm md:text-base">
-                Connect your social platforms, find opportunities, and track your performance
-              </p>
-            </div>
-
-            {loading ? (
-              <div className="py-10 text-center">Loading profile...</div>
-            ) : (
-              <>
-                <ProfileInfo user={user} profile={profile} />
-                <DashboardTabs 
-                  connectedPlatforms={connectedPlatforms}
-                  handleConnectPlatform={handleConnectPlatform}
-                  navigateToPlatforms={navigateToPlatforms}
-                />
-              </>
-            )}
-          </div>
+    <DashboardLayout type="influencer">
+      {loading ? (
+        <div className="py-10 text-center">Loading profile...</div>
+      ) : (
+        <div className="space-y-6">
+          <ProfileInfo user={user} profile={profile} />
+          <DashboardTabs 
+            connectedPlatforms={connectedPlatforms}
+            handleConnectPlatform={handleConnectPlatform}
+            navigateToPlatforms={navigateToPlatforms}
+          />
         </div>
-      </main>
-      <Footer />
-    </div>
+      )}
+    </DashboardLayout>
   );
 };
 

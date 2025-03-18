@@ -22,6 +22,12 @@ const DesktopMenu = ({ user, signOut, scrollToSection }: DesktopMenuProps) => {
     }
   };
 
+  const getDashboardLink = () => {
+    // This is a placeholder. In a real app, you'd determine the user type from their profile
+    // For now, we'll just point to /dashboard
+    return "/dashboard";
+  };
+
   return (
     <div className="hidden md:flex items-center gap-6 md:gap-8">
       <NavLinks scrollToSection={scrollToSection} />
@@ -29,7 +35,7 @@ const DesktopMenu = ({ user, signOut, scrollToSection }: DesktopMenuProps) => {
         {user ? (
           <>
             <Button asChild variant="ghost" className="button-hover-effect text-sm" size="sm">
-              <Link to="/dashboard">Dashboard</Link>
+              <Link to={getDashboardLink()}>Dashboard</Link>
             </Button>
             <Button onClick={handleSignOut} variant="outline" className="button-hover-effect text-sm" size="sm">
               Sign Out

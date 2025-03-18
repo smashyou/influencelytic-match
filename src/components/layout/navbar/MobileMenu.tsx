@@ -36,6 +36,12 @@ const MobileMenu = ({ isOpen, user, onSignOut, scrollToSection, onClose }: Mobil
     }
   };
 
+  const getDashboardLink = () => {
+    // This is a placeholder. In a real app, you'd determine the user type from their profile
+    // For now, we'll just point to /dashboard
+    return "/dashboard";
+  };
+
   return (
     <div 
       className={cn(
@@ -71,7 +77,7 @@ const MobileMenu = ({ isOpen, user, onSignOut, scrollToSection, onClose }: Mobil
             {user ? (
               <>
                 <Button asChild variant="outline" className="w-full" size="sm">
-                  <Link to="/dashboard" onClick={onClose}>Dashboard</Link>
+                  <Link to={getDashboardLink()} onClick={onClose}>Dashboard</Link>
                 </Button>
                 <Button onClick={handleSignOut} className="w-full" size="sm">
                   Sign Out
