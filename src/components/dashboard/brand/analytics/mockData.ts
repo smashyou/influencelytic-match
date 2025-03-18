@@ -109,4 +109,17 @@ export const MOCK_GROWTH_DATA = [
   { name: 'Jun', instagram: 16800, youtube: 11000, tiktok: 23500 },
 ];
 
+// Add the missing data that's referenced in the code
+export const MOCK_DEMOGRAPHICS_DATA = MOCK_DEMOGRAPHICS_AGE;
+export const MOCK_GEOGRAPHIC_DATA = [
+  { name: 'United States', value: 45 },
+  { name: 'United Kingdom', value: 15 },
+  { name: 'Canada', value: 12 },
+  { name: 'Australia', value: 8 },
+  { name: 'Germany', value: 6 },
+  { name: 'France', value: 4 },
+  { name: 'Japan', value: 3 },
+  { name: 'Other', value: 7 },
+];
+
 export const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];

@@ -9,6 +9,101 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      campaign_applications: {
+        Row: {
+          applied_at: string | null
+          campaign_id: string
+          id: string
+          notes: string | null
+          status: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          applied_at?: string | null
+          campaign_id: string
+          id?: string
+          notes?: string | null
+          status?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          applied_at?: string | null
+          campaign_id?: string
+          id?: string
+          notes?: string | null
+          status?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_applications_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      campaigns: {
+        Row: {
+          audience_age: string | null
+          audience_gender: string | null
+          brand_name: string
+          campaign_type: string | null
+          category: string | null
+          created_at: string | null
+          description: string | null
+          estimated_earnings: string | null
+          id: string
+          is_featured: boolean | null
+          location: string | null
+          platform: string | null
+          status: string | null
+          title: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          audience_age?: string | null
+          audience_gender?: string | null
+          brand_name: string
+          campaign_type?: string | null
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          estimated_earnings?: string | null
+          id?: string
+          is_featured?: boolean | null
+          location?: string | null
+          platform?: string | null
+          status?: string | null
+          title: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          audience_age?: string | null
+          audience_gender?: string | null
+          brand_name?: string
+          campaign_type?: string | null
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          estimated_earnings?: string | null
+          id?: string
+          is_featured?: boolean | null
+          location?: string | null
+          platform?: string | null
+          status?: string | null
+          title?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -33,6 +128,42 @@ export type Database = {
           last_name?: string | null
           updated_at?: string
           user_type?: string | null
+        }
+        Relationships: []
+      }
+      social_connections: {
+        Row: {
+          access_token: string | null
+          connected_at: string | null
+          id: string
+          platform: string
+          platform_user_id: string | null
+          refresh_token: string | null
+          token_expires_at: string | null
+          user_id: string
+          username: string | null
+        }
+        Insert: {
+          access_token?: string | null
+          connected_at?: string | null
+          id?: string
+          platform: string
+          platform_user_id?: string | null
+          refresh_token?: string | null
+          token_expires_at?: string | null
+          user_id: string
+          username?: string | null
+        }
+        Update: {
+          access_token?: string | null
+          connected_at?: string | null
+          id?: string
+          platform?: string
+          platform_user_id?: string | null
+          refresh_token?: string | null
+          token_expires_at?: string | null
+          user_id?: string
+          username?: string | null
         }
         Relationships: []
       }

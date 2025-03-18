@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -14,7 +13,7 @@ import { toast } from '@/components/ui/use-toast';
 
 // Campaign type definition
 interface Campaign {
-  id: number;
+  id: string;
   title: string;
   brand: string;
   description: string;
@@ -46,23 +45,21 @@ const OpportunitiesTab = () => {
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
-        // In a real app, this would fetch from the campaigns table
         const { data, error } = await supabase
           .from('campaigns')
-          .select('*');
+          .select('*')
+          .eq('status', 'active');
         
         if (error) {
           console.error('Error fetching campaigns:', error);
-          // Fall back to mock data if we encounter an error
           setCampaigns(MOCK_CAMPAIGNS);
           setFilteredCampaigns(MOCK_CAMPAIGNS);
         } else if (data && data.length > 0) {
-          // Transform data to match our Campaign interface if needed
-          const formattedCampaigns = data.map(campaign => ({
+          const formattedCampaigns: Campaign[] = data.map(campaign => ({
             id: campaign.id,
             title: campaign.title,
             brand: campaign.brand_name || 'Unknown Brand',
-            description: campaign.description,
+            description: campaign.description || '',
             audienceAge: campaign.audience_age || '18-34',
             audienceGender: campaign.audience_gender || 'All',
             location: campaign.location || 'Global',
@@ -75,7 +72,6 @@ const OpportunitiesTab = () => {
           setCampaigns(formattedCampaigns);
           setFilteredCampaigns(formattedCampaigns);
         } else {
-          // If no campaigns found, use mock data for demonstration
           setCampaigns(MOCK_CAMPAIGNS);
           setFilteredCampaigns(MOCK_CAMPAIGNS);
         }
@@ -93,7 +89,6 @@ const OpportunitiesTab = () => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    // Filter the campaigns based on search query
     const results = campaigns.filter(campaign => 
       campaign.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       campaign.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -103,7 +98,6 @@ const OpportunitiesTab = () => {
   };
 
   const applyFilters = () => {
-    // Filter campaigns based on selected filters
     let results = campaigns;
     
     if (filters.audienceAge) {
@@ -126,7 +120,6 @@ const OpportunitiesTab = () => {
       results = results.filter(campaign => campaign.category === filters.category);
     }
     
-    // Filter by earnings range
     results = results.filter(campaign => {
       const minEarning = parseInt(campaign.estimatedEarnings.split('-')[0].replace(/\D/g, ''));
       return minEarning >= filters.earnings[0] && minEarning <= filters.earnings[1];
@@ -147,9 +140,8 @@ const OpportunitiesTab = () => {
     setFilteredCampaigns(campaigns);
   };
 
-  const handleApply = async (campaignId: number) => {
+  const handleApply = async (campaignId: string) => {
     try {
-      // In a real app, this would submit an application to the campaign
       const { data: userData, error: userError } = await supabase.auth.getUser();
       
       if (userError || !userData.user) {
@@ -161,15 +153,17 @@ const OpportunitiesTab = () => {
         return;
       }
       
-      const { error } = await supabase.from('campaign_applications').insert({
-        campaign_id: campaignId,
-        user_id: userData.user.id,
-        status: 'pending',
-        applied_at: new Date().toISOString(),
-      });
+      const { error } = await supabase
+        .from('campaign_applications')
+        .insert({
+          campaign_id: campaignId,
+          user_id: userData.user.id,
+          status: 'pending',
+          applied_at: new Date().toISOString(),
+        });
       
       if (error) {
-        if (error.code === '23505') { // Unique violation
+        if (error.code === '23505') {
           toast({
             title: "Already applied",
             description: "You have already applied to this campaign",
@@ -195,11 +189,10 @@ const OpportunitiesTab = () => {
     }
   };
 
-  // Get the platform icon based on platform name
   const getPlatformIcon = (platform: string) => {
     switch(platform) {
       case 'instagram':
-        return '📱'; // Using emoji for simplicity, replace with actual icons in production
+        return '📱';
       case 'tiktok':
         return '🎵';
       case 'youtube':
@@ -209,10 +202,9 @@ const OpportunitiesTab = () => {
     }
   };
 
-  // Mock campaigns data for fallback
-  const MOCK_CAMPAIGNS = [
+  const MOCK_CAMPAIGNS: Campaign[] = [
     {
-      id: 1,
+      id: "1",
       title: "Summer Fashion Collection",
       brand: "StyleHub",
       description: "Promote our new summer fashion collection on Instagram with creative photoshoots.",
@@ -225,7 +217,7 @@ const OpportunitiesTab = () => {
       platform: "instagram",
     },
     {
-      id: 2,
+      id: "2",
       title: "Fitness App Launch",
       brand: "FitLife",
       description: "Create engaging content showcasing our new fitness app features and your workout routine.",
@@ -238,7 +230,7 @@ const OpportunitiesTab = () => {
       platform: "tiktok",
     },
     {
-      id: 3,
+      id: "3",
       title: "Local Coffee Shop Promotion",
       brand: "BrewMorning",
       description: "Visit our coffee shop and create authentic content about your experience.",

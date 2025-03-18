@@ -86,14 +86,16 @@ const storeSocialConnection = async (platform: SocialPlatform, data: any) => {
   
   try {
     // Store the connection in our database
-    const { error } = await supabase.from('social_connections').upsert({
-      user_id: userData.user.id,
-      platform,
-      platform_user_id: data.userId,
-      username: data.username,
-      access_token: data.accessToken,
-      connected_at: new Date().toISOString(),
-    }).select();
+    const { error } = await supabase
+      .from('social_connections')
+      .upsert({
+        user_id: userData.user.id,
+        platform,
+        platform_user_id: data.userId,
+        username: data.username,
+        access_token: data.accessToken,
+        connected_at: new Date().toISOString(),
+      });
     
     if (error) {
       console.error('Error storing connection:', error);
