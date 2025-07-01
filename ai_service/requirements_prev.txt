@@ -1,0 +1,282 @@
+# Python 3.13 Compatible Requirements for Influencelytic AI Service
+# Updated: January 2025 - All packages verified for Python 3.13 compatibility
+
+# Core FastAPI and server dependencies
+fastapi==0.115.4
+uvicorn[standard]==0.32.0
+python-multipart==0.0.12
+pydantic==2.10.2
+pydantic-settings==2.7.0
+starlette==0.41.2
+
+# Authentication and security
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-dotenv==1.0.1
+cryptography==43.0.3
+
+# HTTP client for API calls
+httpx==0.28.1
+aiohttp==3.11.7
+requests==2.32.3
+urllib3==2.2.3
+
+# Data processing and analysis
+pandas==2.2.3
+numpy==2.1.3
+scipy==1.14.1
+
+# Machine Learning and AI - Python 3.13 compatible versions
+scikit-learn==1.5.2
+torch==2.5.1
+torchvision==0.20.1
+torchaudio==2.5.1
+transformers==4.46.3
+tokenizers==0.20.3
+sentence-transformers==3.3.1
+huggingface-hub==0.26.2
+accelerate==1.1.1
+
+# Natural Language Processing - Updated for Python 3.13
+nltk==3.9.1
+spacy==3.8.2
+textblob==0.18.0.post0
+langdetect==1.0.9
+
+# Image processing (for profile picture analysis)
+Pillow==11.0.0
+opencv-python==4.10.0.84
+imageio==2.36.0
+
+# Data visualization and plotting
+matplotlib==3.9.2
+seaborn==0.13.2
+plotly==5.24.1
+bokeh==3.6.2
+
+# Database and caching - Python 3.13 compatible
+redis==5.2.0
+psycopg2-binary==2.9.10
+asyncpg==0.30.0
+supabase==2.8.4
+sqlalchemy==2.0.36
+
+# Async task processing
+celery==5.4.0
+kombu==5.4.2
+redis-py-cluster==2.1.3
+
+# Utilities and helpers
+python-dateutil==2.9.0.post0
+pytz==2024.2
+tzdata==2024.2
+click==8.1.7
+rich==13.9.4
+typer==0.15.1
+colorama==0.4.6
+
+# Testing frameworks
+pytest==8.3.3
+pytest-asyncio==0.24.0
+pytest-cov==6.0.0
+pytest-mock==3.14.0
+httpx-test==0.26.0
+factory-boy==3.3.1
+
+# Development tools
+black==24.10.0
+flake8==7.1.1
+isort==5.13.2
+mypy==1.13.0
+pre-commit==4.0.1
+ruff==0.8.4
+
+# Monitoring and logging
+structlog==24.4.0
+sentry-sdk[fastapi]==2.19.0
+prometheus-client==0.21.0
+loguru==0.7.2
+
+# Performance and optimization
+orjson==3.10.11
+ujson==5.10.0
+cachetools==5.5.0
+lru-dict==1.3.0
+
+# Environment and configuration
+environs==11.0.0
+dynaconf==3.2.8
+pydantic-env==2.1.0
+
+# Advanced ML libraries for sophisticated features
+xgboost==2.1.2
+lightgbm==4.5.0
+catboost==1.2.7
+optuna==4.1.0
+
+# Time series analysis (for trend prediction)
+statsmodels==0.14.4
+pmdarima==2.0.4
+prophet==1.1.6
+
+# Text similarity and embeddings
+faiss-cpu==1.9.0
+annoy==1.17.3
+hnswlib==0.8.0
+
+# Social media API libraries - Updated versions
+tweepy==4.14.0
+facebook-sdk==3.1.0
+google-api-python-client==2.154.0
+google-auth==2.36.0
+google-auth-oauthlib==1.2.1
+instagram-basic-display==1.2.0
+
+# Image analysis for enhanced fake profile detection
+imagehash==4.3.1
+face-recognition==1.3.0
+deepface==0.0.93
+mediapipe==0.10.20
+
+# Data validation and serialization
+marshmallow==3.23.1
+cerberus==1.3.5
+jsonschema==4.23.0
+
+# Async utilities for better performance
+asyncio-throttle==1.0.2
+aiofiles==24.1.0
+aiolimiter==1.1.0
+aioredis==2.0.1
+
+# Mathematical computations
+sympy==1.13.3
+networkx==3.4.2
+igraph==0.11.8
+
+# Memory optimization and profiling
+memory-profiler==0.61.0
+psutil==6.1.0
+py-spy==0.3.14
+
+# Essential build tools
+wheel==0.45.1
+setuptools==75.6.0
+pip==24.3.1
+
+# Security scanning and validation
+safety==3.2.11
+bandit==1.8.0
+semgrep==1.95.0
+
+# Code quality and formatting
+pylint==3.3.1
+autopep8==2.3.1
+vulture==2.13
+
+# Documentation generation
+sphinx==8.1.3
+sphinx-rtd-theme==3.0.2
+mkdocs==1.6.1
+mkdocs-material==9.5.47
+
+# API documentation enhancement
+fastapi-docs==0.2.0
+redoc==2.1.0
+
+# WebSocket support for real-time features
+websockets==13.1
+python-socketio==5.11.4
+socketio-client==0.7.2
+
+# Background task scheduling
+apscheduler==3.11.0
+schedule==1.2.2
+
+# File processing capabilities
+openpyxl==3.1.5
+python-csv==0.0.13
+xlsxwriter==3.2.0
+PyPDF2==3.0.1
+
+# Email sending capabilities
+fastapi-mail==1.4.1
+jinja2==3.1.4
+sendgrid==6.11.0
+
+# Rate limiting and throttling
+slowapi==0.1.9
+limits==3.13.0
+
+# Timezone and internationalization
+babel==2.16.0
+pytz-deprecation-shim==0.1.0.post0
+
+# High-performance data processing
+polars==1.17.1
+pyarrow==18.1.0
+duckdb==1.1.3
+
+# Model optimization and deployment
+onnx==1.17.0
+onnxruntime==1.20.0
+tensorrt==10.6.0
+
+# Experiment tracking and MLOps
+mlflow==2.19.0
+wandb==0.18.7
+clearml==1.16.4
+
+# Database migrations and ORM
+alembic==1.14.0
+tortoise-orm==0.21.7
+
+# Configuration management
+hydra-core==1.3.2
+omegaconf==2.3.0
+confz==2.0.1
+
+# Parallel and distributed processing
+joblib==1.4.2
+dask[complete]==2024.12.1
+ray==2.39.0
+
+# Production deployment
+gunicorn==23.0.0
+gevent==24.11.1
+greenlet==3.1.1
+supervisor==4.2.5
+
+# Container and cloud deployment
+docker==7.1.0
+kubernetes==31.0.0
+
+# Monitoring and observability
+opencensus==0.11.4
+opentelemetry-api==1.29.0
+opentelemetry-sdk==1.29.0
+datadog==0.50.1
+
+# Additional utilities for production
+python-multipart==0.0.12
+email-validator==2.2.0
+phonenumbers==8.13.50
+validators==0.34.0
+
+# Backup and data export
+boto3==1.35.79
+google-cloud-storage==2.18.2
+azure-storage-blob==12.24.0
+
+# Advanced text processing
+textdistance==4.6.3
+fuzzywuzzy==0.18.0
+python-levenshtein==0.26.0
+
+# API versioning and backwards compatibility
+fastapi-versioning==0.10.0
+deprecation==2.1.0
+
+# Health checks and system monitoring
+healthcheck==1.3.3
+uptime==3.0.1

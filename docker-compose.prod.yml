@@ -1,0 +1,60 @@
+# docker-compose.prod.yml (ROOT DIRECTORY)
+# Production overrides - use with: docker-compose -f docker-compose.yml -f docker-compose.prod.yml up
+
+version: "3.8"
+
+services:
+  frontend:
+    build:
+      target: production
+    environment:
+      - NODE_ENV=production
+    restart: always
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+
+  backend:
+    build:
+      target: production
+    environment:
+      - NODE_ENV=production
+    restart: always
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+
+  ai-service:
+    environment:
+      - ENVIRONMENT=production
+      - WORKERS=4
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 8G
+        reservations:
+          memory: 4G
+    command: gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
+
+  # Load balancer for production
+  loadbalancer:
+    image: nginx:1.25-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.prod.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+    depends_on:
+      - frontend
+      - backend
+    restart: always
