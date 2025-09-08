@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Campaign Application</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f4;">
+  <table cellpadding="0" cellspacing="0" width="100%" style="background-color: #f4f4f4; padding: 20px 0;">
+    <tr>
+      <td align="center">
+        <table cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <!-- Header -->
+          <tr>
+            <td style="background-color: #4CAF50; padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+              <h1 style="color: #ffffff; margin: 0; font-size: 28px;">New Application Received!</h1>
+            </td>
+          </tr>
+          
+          <!-- Content -->
+          <tr>
+            <td style="padding: 40px;">
+              <h2 style="color: #333; margin-bottom: 20px;">Hi {{brandName}},</h2>
+              
+              <p style="color: #666; line-height: 1.6; font-size: 16px;">
+                Great news! You have a new application for your campaign:
+              </p>
+
+              <div style="background-color: #f8f9fa; border-radius: 8px; padding: 25px; margin: 30px 0;">
+                <h3 style="color: #333; margin-top: 0; margin-bottom: 20px;">Campaign: {{campaignTitle}}</h3>
+                
+                <table cellpadding="0" cellspacing="0" width="100%">
+                  <tr>
+                    <td style="padding: 10px 0;">
+                      <strong style="color: #555;">Influencer:</strong>
+                    </td>
+                    <td style="padding: 10px 0;">
+                      <span style="color: #333;">{{influencerName}} (@{{influencerUsername}})</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 10px 0;">
+                      <strong style="color: #555;">Proposed Rate:</strong>
+                    </td>
+                    <td style="padding: 10px 0;">
+                      <span style="color: #4CAF50; font-size: 18px; font-weight: bold;">${{proposedRate}}</span>
+                    </td>
+                  </tr>
+                </table>
+
+                {{#if message}}
+                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
+                  <strong style="color: #555;">Message from Influencer:</strong>
+                  <p style="color: #666; line-height: 1.6; margin-top: 10px; font-style: italic;">
+                    "{{message}}"
+                  </p>
+                </div>
+                {{/if}}
+              </div>
+
+              <div style="text-align: center; margin: 40px 0;">
+                <a href="{{reviewLink}}" style="display: inline-block; background-color: #4CAF50; color: #ffffff; text-decoration: none; padding: 14px 40px; border-radius: 25px; font-weight: bold; font-size: 16px;">
+                  Review Application
+                </a>
+              </div>
+
+              <div style="background-color: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 30px 0;">
+                <p style="color: #856404; margin: 0; font-size: 14px;">
+                  <strong>Quick Actions:</strong> You can accept, reject, or message the influencer directly from your dashboard.
+                </p>
+              </div>
+
+              <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 40px 0;">
+
+              <h3 style="color: #333;">Application Tips:</h3>
+              <ul style="color: #666; line-height: 1.8;">
+                <li>Review the influencer's profile and engagement metrics</li>
+                <li>Check their previous work and brand collaborations</li>
+                <li>Respond within 48 hours for best results</li>
+                <li>Consider negotiating rates for long-term partnerships</li>
+              </ul>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background-color: #f8f9fa; padding: 30px; text-align: center; border-radius: 0 0 8px 8px;">
+              <p style="color: #999; font-size: 14px; margin: 0;">
+                © {{year}} Influencelytic. All rights reserved.
+              </p>
+              <p style="color: #999; font-size: 12px; margin-top: 10px;">
+                <a href="{{appUrl}}/settings/notifications" style="color: #999;">Notification Settings</a> |
+                <a href="mailto:{{supportEmail}}" style="color: #999;">Support</a>
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

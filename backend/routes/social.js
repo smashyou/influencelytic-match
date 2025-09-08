@@ -38,6 +38,7 @@ router.get("/connections", async (req, res) => {
 router.get("/auth/:platform", requireRole(["influencer"]), async (req, res) => {
   try {
     const { platform } = req.params;
+    const userId = req.user.id;
 
     const supportedPlatforms = [
       "instagram",

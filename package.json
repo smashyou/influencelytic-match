@@ -1,14 +1,33 @@
 {
-  "name": "vite_react_shadcn_ts",
+  "name": "influencelytic-match",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "AI-powered influencer-brand matching platform",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "install:all": "npm run install:frontend && npm run install:backend && npm run install:ai",
+    "install:frontend": "cd frontend && npm install",
+    "install:backend": "cd backend && npm install",
+    "install:ai": "cd ai_service && pip install -r requirements.txt",
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\" \"npm run dev:ai\"",
+    "dev:frontend": "cd frontend && vite",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:ai": "cd ai_service && uvicorn main_simple:app --reload --port 8000",
+    "build": "npm run build:frontend && npm run build:backend",
+    "build:frontend": "cd frontend && vite build",
+    "build:backend": "cd backend && npm run build",
     "build:dev": "vite build --mode development",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "lint": "npm run lint:frontend && npm run lint:backend",
+    "lint:frontend": "cd frontend && eslint .",
+    "lint:backend": "cd backend && npm run lint",
+    "preview": "cd frontend && vite preview",
+    "test": "npm run test:frontend && npm run test:backend && npm run test:ai",
+    "test:frontend": "cd frontend && npm test",
+    "test:backend": "cd backend && npm test",
+    "test:ai": "cd ai_service && pytest",
+    "check:env": "node scripts/check-env.js",
+    "setup": "npm run install:all && npm run check:env",
+    "clean": "rm -rf node_modules frontend/node_modules backend/node_modules frontend/dist backend/dist ai_service/__pycache__"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -35,10 +54,10 @@
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-switch": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",
-    "@radix-ui/react-toast": "^1.2.1",
+    "@radix-ui/react-toast": "^1.2.15",
     "@radix-ui/react-toggle": "^1.1.0",
     "@radix-ui/react-toggle-group": "^1.1.0",
-    "@radix-ui/react-tooltip": "^1.1.4",
+    "@radix-ui/react-tooltip": "^1.2.8",
     "@supabase/supabase-js": "^2.49.1",
     "@tanstack/react-query": "^5.56.2",
     "class-variance-authority": "^0.7.1",
@@ -69,8 +88,9 @@
     "@types/node": "^22.15.34",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react-swc": "^3.5.0",
+    "@vitejs/plugin-react-swc": "^3.11.0",
     "autoprefixer": "^10.4.20",
+    "concurrently": "^8.2.2",
     "eslint": "^9.9.0",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",
@@ -81,5 +101,9 @@
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
     "vite": "^5.4.1"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
   }
 }

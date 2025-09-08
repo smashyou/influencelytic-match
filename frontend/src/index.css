@@ -128,7 +128,7 @@
   }
 
   .animated-gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent animate-pulse-light;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent animate-pulse;
   }
 
   .button-hover-effect {
@@ -195,17 +195,17 @@
 
 /* Typography enhancements */
 .heading-1 {
-  @apply font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight;
+  @apply font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight;
   letter-spacing: -0.02em;
 }
 
 .heading-2 {
-  @apply font-display font-bold text-3xl md:text-4xl tracking-tight;
+  @apply font-bold text-3xl md:text-4xl tracking-tight;
   letter-spacing: -0.01em;
 }
 
 .heading-3 {
-  @apply font-display font-semibold text-2xl md:text-3xl tracking-tight;
+  @apply font-semibold text-2xl md:text-3xl tracking-tight;
 }
 
 .body-text {

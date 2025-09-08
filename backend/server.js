@@ -51,6 +51,23 @@ app.get("/health", (req, res) => {
   });
 });
 
+// Session middleware for OAuth state
+const session = require("express-session");
+app.use(session({
+  secret: process.env.SESSION_SECRET || "mock-session-secret-change-in-production",
+  resave: false,
+  saveUninitialized: true,
+  cookie: { 
+    secure: process.env.NODE_ENV === "production",
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
+}));
+
+// Serve static files for legal pages
+const path = require("path");
+app.use("/legal", express.static(path.join(__dirname, "../frontend/public")));
+
 // Import route handlers
 const authRoutes = require("./routes/auth");
 const socialRoutes = require("./routes/social");
@@ -60,6 +77,17 @@ const analyticsRoutes = require("./routes/analytics");
 const searchRoutes = require("./routes/search");
 const notificationRoutes = require("./routes/notifications");
 const profileRoutes = require("./routes/profile");
+
+// Mock authentication routes (if enabled)
+if (process.env.USE_MOCK_AUTH === "true") {
+  console.log("🎭 Mock authentication enabled");
+  const mockAuthRoutes = require("./routes/auth/mockAuth");
+  app.use("/api", mockAuthRoutes);
+}
+
+// Unified authentication routes
+const unifiedAuthRoutes = require("./routes/auth/unifiedAuth");
+app.use("/api", unifiedAuthRoutes);
 
 // Route middleware
 app.use("/api/auth", authRoutes);
@@ -117,12 +145,30 @@ process.on("SIGINT", () => {
 
 // Start server
 app.listen(PORT, () => {
+  console.log("\n" + "=".repeat(60));
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📊 Environment: ${process.env.NODE_ENV || "development"}`);
   console.log(`🔗 API URL: http://localhost:${PORT}`);
-  console.log(`💾 Database: ${process.env.SUPABASE_URL ? "Connected" : "Not configured"}`);
-  console.log(`💳 Stripe: ${process.env.STRIPE_SECRET_KEY ? "Connected" : "Not configured"}`);
+  console.log(`💾 Database: ${process.env.SUPABASE_URL ? "✅ Connected" : "❌ Not configured"}`);
+  console.log(`💳 Stripe: ${process.env.STRIPE_SECRET_KEY ? "✅ Connected" : "❌ Not configured"}`);
+  console.log(`📧 Email: ${process.env.SENDGRID_API_KEY || process.env.SMTP_HOST ? "✅ Connected" : "❌ Not configured"}`);
   console.log(`🤖 AI Service: ${process.env.AI_SERVICE_URL || "http://localhost:8000"}`);
+  console.log(`🎭 Mock Auth: ${process.env.USE_MOCK_AUTH === "true" ? "✅ Enabled (No API keys needed!)" : "❌ Disabled (Real APIs)"}`);
+  console.log("=".repeat(60));
+  
+  if (process.env.USE_MOCK_AUTH === "true") {
+    console.log("\n📌 Mock Mode Active:");
+    console.log("   • Using simulated social media data");
+    console.log("   • No real API keys required");
+    console.log("   • Perfect for development and testing");
+    console.log("   • Test endpoints at: /api/auth/mock/:platform");
+  }
+  
+  console.log("\n📚 Quick Links:");
+  console.log(`   • Health Check: http://localhost:${PORT}/health`);
+  console.log(`   • Terms of Service: http://localhost:${PORT}/legal/terms-of-service.html`);
+  console.log(`   • Privacy Policy: http://localhost:${PORT}/legal/privacy-policy.html`);
+  console.log("\n");
 });
 
 module.exports = app;

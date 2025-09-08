@@ -48,4 +48,18 @@ const requireRole = (roles) => {
   };
 };
 
-module.exports = { authenticateToken, requireRole };
+module.exports = { 
+  authenticateToken, 
+  requireAuth: authenticateToken, // Alias for compatibility
+  requireRole,
+  requireBrand: requireRole(['brand']),
+  requireInfluencer: requireRole(['influencer']),
+  requireAdmin: requireRole(['admin']),
+  optionalAuth: (req, res, next) => {
+    const authHeader = req.headers["authorization"];
+    if (!authHeader) {
+      return next(); // Continue without auth
+    }
+    return authenticateToken(req, res, next);
+  }
+};

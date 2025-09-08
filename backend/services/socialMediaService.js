@@ -141,37 +141,130 @@ const fetchFacebookData = async (authCode, userId, existingToken = null) => {
 };
 
 const fetchTikTokData = async (authCode, userId, existingToken = null) => {
-  // TikTok API implementation
-  return {
-    id: "tt_" + userId,
-    username: "tiktok_user",
-    display_name: "TikTok User",
-    avatar_url: null,
-    access_token: "placeholder_token",
-    refresh_token: null,
-    expires_at: null,
-    follower_count: 0,
-    following_count: 0,
-    post_count: 0,
-    is_verified: false,
-  };
+  try {
+    let accessToken = existingToken;
+
+    if (!accessToken && authCode) {
+      // Exchange code for access token
+      const tokenResponse = await axios.post(
+        "https://open-api.tiktok.com/oauth/access_token/",
+        {
+          client_key: process.env.TIKTOK_CLIENT_KEY,
+          client_secret: process.env.TIKTOK_CLIENT_SECRET,
+          code: authCode,
+          grant_type: "authorization_code",
+        }
+      );
+
+      accessToken = tokenResponse.data.data.access_token;
+      const openId = tokenResponse.data.data.open_id;
+      const expiresIn = tokenResponse.data.data.expires_in;
+
+      // Get user profile
+      const profileResponse = await axios.get(
+        "https://open-api.tiktok.com/user/info/",
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          params: {
+            open_id: openId,
+            fields:
+              "open_id,union_id,avatar_url,display_name,follower_count,following_count,likes_count,video_count,is_verified",
+          },
+        }
+      );
+
+      const userData = profileResponse.data.data.user;
+
+      return {
+        id: openId,
+        username: userData.display_name,
+        display_name: userData.display_name,
+        avatar_url: userData.avatar_url,
+        access_token: accessToken,
+        refresh_token: null,
+        expires_at: new Date(Date.now() + expiresIn * 1000).toISOString(),
+        follower_count: userData.follower_count || 0,
+        following_count: userData.following_count || 0,
+        post_count: userData.video_count || 0,
+        is_verified: userData.is_verified || false,
+        engagement_data: {
+          likes_count: userData.likes_count || 0,
+        },
+      };
+    }
+
+    return null;
+  } catch (error) {
+    console.error("TikTok API error:", error.response?.data || error.message);
+    throw error;
+  }
 };
 
 const fetchYouTubeData = async (authCode, userId, existingToken = null) => {
-  // YouTube API implementation
-  return {
-    id: "yt_" + userId,
-    username: "youtube_user",
-    display_name: "YouTube User",
-    avatar_url: null,
-    access_token: "placeholder_token",
-    refresh_token: null,
-    expires_at: null,
-    follower_count: 0,
-    following_count: 0,
-    post_count: 0,
-    is_verified: false,
-  };
+  try {
+    let accessToken = existingToken;
+    let refreshToken = null;
+
+    if (!accessToken && authCode) {
+      // Exchange code for access token
+      const tokenResponse = await axios.post(
+        "https://oauth2.googleapis.com/token",
+        {
+          client_id: process.env.GOOGLE_CLIENT_ID,
+          client_secret: process.env.GOOGLE_CLIENT_SECRET,
+          code: authCode,
+          grant_type: "authorization_code",
+          redirect_uri: process.env.YOUTUBE_REDIRECT_URI,
+        }
+      );
+
+      accessToken = tokenResponse.data.access_token;
+      refreshToken = tokenResponse.data.refresh_token;
+      const expiresIn = tokenResponse.data.expires_in;
+
+      // Get channel info
+      const channelResponse = await axios.get(
+        "https://www.googleapis.com/youtube/v3/channels",
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          params: {
+            part: "snippet,statistics,contentDetails",
+            mine: true,
+          },
+        }
+      );
+
+      const channel = channelResponse.data.items[0];
+
+      return {
+        id: channel.id,
+        username: channel.snippet.title,
+        display_name: channel.snippet.title,
+        avatar_url: channel.snippet.thumbnails.high.url,
+        access_token: accessToken,
+        refresh_token: refreshToken,
+        expires_at: new Date(Date.now() + expiresIn * 1000).toISOString(),
+        follower_count: parseInt(channel.statistics.subscriberCount) || 0,
+        following_count: 0, // YouTube doesn't have following
+        post_count: parseInt(channel.statistics.videoCount) || 0,
+        is_verified: channel.snippet.customUrl ? true : false,
+        engagement_data: {
+          view_count: parseInt(channel.statistics.viewCount) || 0,
+          comment_count: parseInt(channel.statistics.commentCount) || 0,
+          description: channel.snippet.description,
+        },
+      };
+    }
+
+    return null;
+  } catch (error) {
+    console.error("YouTube API error:", error.response?.data || error.message);
+    throw error;
+  }
 };
 
 const fetchTwitterData = async (authCode, userId, existingToken = null) => {
