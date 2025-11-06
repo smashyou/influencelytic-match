@@ -102,6 +102,7 @@ app.use("/api/profile", profileRoutes);
 // Additional convenience routes
 app.use("/api/applications", require("./routes/applications"));
 app.use("/api/ai", require("./routes/ai"));
+app.use("/api/content", require("./routes/content")); // Content performance & analysis
 app.use("/api/trends", searchRoutes); // Reuse search routes for trends
 
 // 404 handler for API routes

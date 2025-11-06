@@ -5,6 +5,9 @@ import PlatformsTab from './PlatformsTab';
 import OpportunitiesTab from './OpportunitiesTab';
 import BusinessMatchTab from './BusinessMatchTab';
 import FollowersAnalyticsTab from './FollowersAnalyticsTab';
+import PostPerformanceAnalyzer from './analytics/PostPerformanceAnalyzer';
+import ContentRecommendations from './analytics/ContentRecommendations';
+import GrowthTipsPanel from './analytics/GrowthTipsPanel';
 
 interface DashboardTabsProps {
   connectedPlatforms: string[];
@@ -26,11 +29,14 @@ const DashboardTabs = ({
       {activeTab === 'opportunities' && <OpportunitiesTab />}
       {activeTab === 'business-match' && <BusinessMatchTab />}
       {activeTab === 'followers-analytics' && (
-        <FollowersAnalyticsTab 
-          connectedPlatforms={connectedPlatforms} 
-          navigateToPlatforms={navigateToPlatforms} 
+        <FollowersAnalyticsTab
+          connectedPlatforms={connectedPlatforms}
+          navigateToPlatforms={navigateToPlatforms}
         />
       )}
+      {activeTab === 'post-performance' && <PostPerformanceAnalyzer />}
+      {activeTab === 'content-recommendations' && <ContentRecommendations />}
+      {activeTab === 'growth-tips' && <GrowthTipsPanel />}
     </div>
   );
 };

@@ -13,7 +13,10 @@ import {
   Bell,
   UserCircle,
   Settings,
-  LogOut
+  LogOut,
+  TrendingUp,
+  Lightbulb,
+  Rocket
 } from 'lucide-react';
 
 interface DashboardSidebarProps {
@@ -34,13 +37,16 @@ const DashboardSidebar = ({ user, signOut, type }: DashboardSidebarProps) => {
     }
   };
 
-  const sidebarLinks = type === 'influencer' 
+  const sidebarLinks = type === 'influencer'
     ? [
         { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard', section: 'overview' },
         { icon: Users, label: 'Platforms', path: '/dashboard', section: 'platforms' },
         { icon: BarChart3, label: 'Opportunities', path: '/dashboard', section: 'opportunities' },
         { icon: Users, label: 'Business Match', path: '/dashboard', section: 'business-match' },
         { icon: BarChart3, label: 'Analytics', path: '/dashboard', section: 'followers-analytics' },
+        { icon: TrendingUp, label: 'Post Performance', path: '/dashboard', section: 'post-performance' },
+        { icon: Lightbulb, label: 'AI Recommendations', path: '/dashboard', section: 'content-recommendations' },
+        { icon: Rocket, label: 'Growth Tips', path: '/dashboard', section: 'growth-tips' },
       ]
     : [
         { icon: LayoutDashboard, label: 'Dashboard', path: '/brand-dashboard', section: 'campaigns' },
