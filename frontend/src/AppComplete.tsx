@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import LandingPage from './LandingPage';
-import DemoLogin from './pages/DemoLogin';
 
 // Icons as simple SVG components
 const HomeIcon = () => (
@@ -1221,6 +1220,172 @@ const ContentPage = () => (
     </div>
   </div>
 );
+
+// Demo Login Component
+const DemoLogin = () => {
+  const loginAsDemo = (type: 'influencer' | 'brand') => {
+    // Create mock user data
+    const mockUser = {
+      id: `demo-${type}-${Date.now()}`,
+      email: type === 'influencer' ? 'fitness@test.com' : 'nike@test.com',
+      user_metadata: {
+        first_name: type === 'influencer' ? 'Fitness' : 'Nike',
+        last_name: type === 'influencer' ? 'Guru' : 'Brand',
+        user_type: type
+      }
+    };
+
+    const mockSession = {
+      access_token: `demo-token-${Date.now()}`,
+      refresh_token: `demo-refresh-${Date.now()}`,
+      expires_at: Date.now() + 24 * 60 * 60 * 1000,
+      user: mockUser
+    };
+
+    localStorage.setItem('demo-mode', 'true');
+    localStorage.setItem('demo-user', JSON.stringify(mockUser));
+    localStorage.setItem('demo-session', JSON.stringify(mockSession));
+    localStorage.setItem('token', mockSession.access_token);
+
+    const dashboardPath = type === 'brand' ? '/brand-dashboard' : '/dashboard';
+    window.location.href = dashboardPath;
+  };
+
+  return (
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      background: 'linear-gradient(to bottom right, #f3e8ff, #dbeafe)',
+      padding: '20px',
+      fontFamily: 'system-ui, -apple-system, sans-serif'
+    }}>
+      <div style={{
+        maxWidth: '800px',
+        width: '100%',
+        background: 'white',
+        borderRadius: '12px',
+        boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
+        padding: '40px'
+      }}>
+        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+          <h1 style={{ fontSize: '32px', fontWeight: 'bold', marginBottom: '10px' }}>
+            🎭 Development Demo Access
+          </h1>
+          <p style={{ fontSize: '18px', color: '#666' }}>
+            Skip authentication and access the dashboard directly
+          </p>
+        </div>
+
+        <div style={{
+          background: '#fef3c7',
+          border: '1px solid #fbbf24',
+          borderRadius: '8px',
+          padding: '16px',
+          marginBottom: '30px'
+        }}>
+          <p style={{ fontSize: '14px', color: '#92400e' }}>
+            <strong>Development Mode:</strong> This page bypasses authentication entirely.
+          </p>
+        </div>
+
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: '20px',
+          marginBottom: '30px'
+        }}>
+          <div style={{
+            border: '2px solid #ddd6fe',
+            borderRadius: '8px',
+            padding: '30px',
+            textAlign: 'center'
+          }}>
+            <div style={{
+              width: '64px',
+              height: '64px',
+              background: '#f3e8ff',
+              borderRadius: '50%',
+              margin: '0 auto 20px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '32px'
+            }}>
+              👤
+            </div>
+            <h3 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '8px' }}>
+              Influencer Dashboard
+            </h3>
+            <p style={{ color: '#666', marginBottom: '20px' }}>
+              Access as: Fitness Guru
+            </p>
+            <button
+              onClick={() => loginAsDemo('influencer')}
+              style={{
+                width: '100%',
+                padding: '12px 24px',
+                background: '#7c3aed',
+                color: 'white',
+                border: 'none',
+                borderRadius: '6px',
+                fontSize: '16px',
+                fontWeight: '600',
+                cursor: 'pointer'
+              }}
+            >
+              Enter as Influencer
+            </button>
+          </div>
+
+          <div style={{
+            border: '2px solid #bfdbfe',
+            borderRadius: '8px',
+            padding: '30px',
+            textAlign: 'center'
+          }}>
+            <div style={{
+              width: '64px',
+              height: '64px',
+              background: '#dbeafe',
+              borderRadius: '50%',
+              margin: '0 auto 20px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '32px'
+            }}>
+              💼
+            </div>
+            <h3 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '8px' }}>
+              Brand Dashboard
+            </h3>
+            <p style={{ color: '#666', marginBottom: '20px' }}>
+              Access as: Nike Brand
+            </p>
+            <button
+              onClick={() => loginAsDemo('brand')}
+              style={{
+                width: '100%',
+                padding: '12px 24px',
+                background: '#2563eb',
+                color: 'white',
+                border: 'none',
+                borderRadius: '6px',
+                fontSize: '16px',
+                fontWeight: '600',
+                cursor: 'pointer'
+              }}
+            >
+              Enter as Brand
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 // Sign In Component
 const SignIn = () => {
