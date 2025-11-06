@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import LandingPage from './LandingPage';
+import DemoLogin from './pages/DemoLogin';
 
 // Icons as simple SVG components
 const HomeIcon = () => (
@@ -2160,7 +2161,8 @@ const AppComplete = () => {
         <Route path="/" element={<LandingPage />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
-        
+        <Route path="/demo" element={<DemoLogin />} />
+
         {/* Protected Dashboard Routes */}
         <Route path="/dashboard" element={
           <DashboardLayout>
