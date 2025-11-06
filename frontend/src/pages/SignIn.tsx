@@ -46,12 +46,50 @@ const SignIn = () => {
     }
   };
 
+  const fillDemoAccount = (type: 'influencer' | 'brand') => {
+    if (type === 'influencer') {
+      setEmail('fitness@test.com');
+      setPassword('Test123!');
+    } else {
+      setEmail('nike@test.com');
+      setPassword('Test123!');
+    }
+  };
+
   return (
     <AuthLayout
       title="Welcome back"
       description="Sign in to your account to continue"
       showSignUp={true}
     >
+      {/* Demo Accounts Banner */}
+      <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+        <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">🎭 Demo Accounts Available</h3>
+        <p className="text-sm text-blue-800 dark:text-blue-200 mb-3">
+          Try the platform without signing up! Click to auto-fill:
+        </p>
+        <div className="flex gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => fillDemoAccount('influencer')}
+            className="flex-1"
+          >
+            Influencer Demo
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => fillDemoAccount('brand')}
+            className="flex-1"
+          >
+            Brand Demo
+          </Button>
+        </div>
+      </div>
+
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-6">
           <div className="space-y-2">
