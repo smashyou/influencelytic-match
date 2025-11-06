@@ -2323,7 +2323,7 @@ const AppComplete = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={<DemoLogin />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/demo" element={<DemoLogin />} />
